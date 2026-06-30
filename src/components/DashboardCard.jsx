@@ -1,54 +1,13 @@
-import DashboardCard from "../components/DashboardCard";
-
-function Dashboard() {
+function DashboardCard({ title, value, icon }) {
   return (
-    <main className="dashboard">
+    <div className="card">
+      <h2>
+        {icon} {title}
+      </h2>
 
-      <section className="welcome-card">
-        <h2>👋 Good Afternoon, Francis</h2>
-        <p>Welcome back to Farm Manager Pro.</p>
-      </section>
-
-      <section className="dashboard-grid">
-
-        <DashboardCard
-          icon="💰"
-          title="Income"
-          value="KES 0.00"
-        />
-
-        <DashboardCard
-          icon="💸"
-          title="Expenses"
-          value="KES 0.00"
-        />
-
-        <DashboardCard
-          icon="🥬"
-          title="Harvest"
-          value="0 kg"
-        />
-
-        <DashboardCard
-          icon="📦"
-          title="Inventory"
-          value="0 Items"
-        />
-
-      </section>
-
-      <section className="tasks-card">
-        <h3>📅 Today's Tasks</h3>
-
-        <ul>
-          <li>✅ Inspect Kale Field</li>
-          <li>💧 Irrigation</li>
-          <li>🧪 Apply Fertilizer</li>
-        </ul>
-      </section>
-
-    </main>
+      <h3>{value}</h3>
+    </div>
   );
 }
 
-export default Dashboard;
+export default DashboardCard;
