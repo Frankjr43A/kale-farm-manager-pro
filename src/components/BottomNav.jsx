@@ -1,6 +1,7 @@
 function BottomNav() {
   return (
     <nav className="bottom-nav">
+
       <button className="active">
         <span>🏠</span>
         <small>Home</small>
@@ -25,6 +26,7 @@ function BottomNav() {
         <span>⚙️</span>
         <small>Settings</small>
       </button>
+
     </nav>
   );
 }

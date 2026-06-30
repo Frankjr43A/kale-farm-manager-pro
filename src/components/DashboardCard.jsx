@@ -1,11 +1,11 @@
-function DashboardCard({ title, value, icon }) {
+function DashboardCard({ icon, title, value }) {
   return (
     <div className="card">
-      <h2>
-        {icon} {title}
-      </h2>
+      <div className="card-icon">{icon}</div>
 
-      <h3>{value}</h3>
+      <h3>{title}</h3>
+
+      <h2>{value}</h2>
     </div>
   );
 }
