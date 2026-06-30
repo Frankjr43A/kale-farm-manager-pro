@@ -1,8 +1,14 @@
 function Header() {
   return (
     <header className="header">
-      <h1>🌿 Kale Farm Manager Pro</h1>
-      <p>Smart Farming Made Simple</p>
+      <div>
+        <h1>🌿 Farm Manager Pro</h1>
+        <p>Manage your farm with confidence</p>
+      </div>
+
+      <div className="profile">
+        👨‍🌾
+      </div>
     </header>
   );
 }

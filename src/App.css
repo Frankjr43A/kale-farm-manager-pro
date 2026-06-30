@@ -2,27 +2,28 @@
   margin:0;
   padding:0;
   box-sizing:border-box;
+  font-family:Arial, Helvetica, sans-serif;
 }
 
 body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:#eef4ee;
+  background:#f5f7fa;
 }
 
 .app{
-  max-width:430px;
-  margin:auto;
   min-height:100vh;
-  background:white;
+  background:#f5f7fa;
+  padding-bottom:90px;
 }
 
 .header{
   background:#2e7d32;
   color:white;
-  text-align:center;
-  padding:30px 20px;
-  border-bottom-left-radius:25px;
-  border-bottom-right-radius:25px;
+  padding:24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom-left-radius:24px;
+  border-bottom-right-radius:24px;
 }
 
 .header h1{
@@ -30,27 +31,112 @@ body{
 }
 
 .header p{
-  margin-top:8px;
+  margin-top:6px;
+  opacity:.9;
+}
+
+.profile{
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  background:white;
+  color:#2e7d32;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
 }
 
 .dashboard{
   padding:20px;
 }
 
-.card{
+.welcome-card,
+.card,
+.tasks-card{
   background:white;
-  border-radius:16px;
-  padding:20px;
-  margin-bottom:18px;
+  border-radius:18px;
   box-shadow:0 5px 15px rgba(0,0,0,.08);
 }
 
+.welcome-card{
+  padding:20px;
+  margin-bottom:20px;
+}
+
+.dashboard-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+}
+
+.card{
+  padding:20px;
+  text-align:center;
+}
+
 .card h2{
-  color:#2e7d32;
+  font-size:18px;
   margin-bottom:12px;
 }
 
 .card h3{
-  color:#1b5e20;
-  font-size:26px;
+  color:#2e7d32;
+  font-size:24px;
+}
+
+.tasks-card{
+  margin-top:20px;
+  padding:20px;
+}
+
+.tasks-card h3{
+  margin-bottom:15px;
+}
+
+.tasks-card ul{
+  list-style:none;
+}
+
+.tasks-card li{
+  padding:12px 0;
+  border-bottom:1px solid #eee;
+}
+
+.tasks-card li:last-child{
+  border-bottom:none;
+}
+
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  background:white;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  padding:12px 0;
+  box-shadow:0 -3px 12px rgba(0,0,0,.1);
+}
+
+.bottom-nav button{
+  border:none;
+  background:none;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  cursor:pointer;
+  color:#666;
+  font-size:14px;
+}
+
+.bottom-nav button span{
+  font-size:24px;
+  margin-bottom:4px;
+}
+
+.bottom-nav button.active{
+  color:#2e7d32;
+  font-weight:bold;
 }
