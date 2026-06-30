@@ -1,31 +1,35 @@
+import DashboardCard from "../components/DashboardCard";
+
 function Dashboard() {
   return (
     <main className="dashboard">
-
       <h2 style={{ marginBottom: "20px" }}>
         👋 Welcome, Francis
       </h2>
 
-      <div className="card">
-        <h2>🌾 Farm</h2>
-        <p>Sweet Valley Farm</p>
-      </div>
+      <DashboardCard
+        icon="💰"
+        title="Income"
+        value="KES 0.00"
+      />
 
-      <div className="card">
-        <h2>💰 Income</h2>
-        <h3>KES 0.00</h3>
-      </div>
+      <DashboardCard
+        icon="💸"
+        title="Expenses"
+        value="KES 0.00"
+      />
 
-      <div className="card">
-        <h2>💸 Expenses</h2>
-        <h3>KES 0.00</h3>
-      </div>
+      <DashboardCard
+        icon="🥬"
+        title="Harvest"
+        value="0 kg"
+      />
 
-      <div className="card">
-        <h2>🥬 Harvest</h2>
-        <h3>0 kg</h3>
-      </div>
-
+      <DashboardCard
+        icon="📦"
+        title="Inventory"
+        value="0 Items"
+      />
     </main>
   );
 }
