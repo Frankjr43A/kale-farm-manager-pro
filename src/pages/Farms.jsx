@@ -20,9 +20,18 @@ function Farms() {
     saveFarms(updated);
   }
 
+  function deleteFarm(id) {
+    const updated = farms.filter(
+      (farm) => farm.id !== id
+    );
+
+    setFarms(updated);
+
+    saveFarms(updated);
+  }
+
   return (
     <main className="dashboard">
-
       <FarmForm onAddFarm={addFarm} />
 
       <div style={{ marginTop: "30px" }}>
@@ -33,11 +42,11 @@ function Farms() {
             <FarmCard
               key={farm.id}
               farm={farm}
+              onDelete={deleteFarm}
             />
           ))
         )}
       </div>
-
     </main>
   );
 }

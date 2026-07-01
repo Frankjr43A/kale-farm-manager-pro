@@ -1,7 +1,13 @@
-function DashboardCard({ icon, title, value }) {
+function DashboardCard({
+  icon,
+  title,
+  value
+}) {
   return (
     <div className="card">
-      <div className="card-icon">{icon}</div>
+      <div className="card-icon">
+        {icon}
+      </div>
 
       <h3>{title}</h3>
 

@@ -5,15 +5,23 @@ function BottomNav() {
     <nav className="bottom-nav">
       <NavLink
         to="/dashboard"
-        className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+        className={({ isActive }) =>
+          isActive
+            ? "nav-item active"
+            : "nav-item"
+        }
       >
         <span>🏠</span>
-        <small>Dashboard</small>
+        <small>Home</small>
       </NavLink>
 
       <NavLink
         to="/farms"
-        className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+        className={({ isActive }) =>
+          isActive
+            ? "nav-item active"
+            : "nav-item"
+        }
       >
         <span>🚜</span>
         <small>Farms</small>
@@ -21,26 +29,38 @@ function BottomNav() {
 
       <NavLink
         to="/finance"
-        className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+        className={({ isActive }) =>
+          isActive
+            ? "nav-item active"
+            : "nav-item"
+        }
       >
-        <span>💰</span>
+        <span>💸</span>
         <small>Finance</small>
       </NavLink>
 
       <NavLink
         to="/reports"
-        className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+        className={({ isActive }) =>
+          isActive
+            ? "nav-item active"
+            : "nav-item"
+        }
       >
         <span>📊</span>
         <small>Reports</small>
       </NavLink>
 
       <NavLink
-        to="/settings"
-        className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+        to="/menu"
+        className={({ isActive }) =>
+          isActive
+            ? "nav-item active"
+            : "nav-item"
+        }
       >
-        <span>⚙️</span>
-        <small>Settings</small>
+        <span>☰</span>
+        <small>Menu</small>
       </NavLink>
     </nav>
   );
