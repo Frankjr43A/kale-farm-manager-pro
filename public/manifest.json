@@ -6,15 +6,15 @@
   "background_color": "#f4f7f5",
   "display": "standalone",
   "orientation": "portrait",
-  "start_url": "/",
+  "start_url": "/kale-farm-manager-pro/",
   "icons": [
     {
-      "src": "/farm-icon-192.png",
+      "src": "/kale-farm-manager-pro/farm-icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/farm-icon-512.png",
+      "src": "/kale-farm-manager-pro/farm-icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
