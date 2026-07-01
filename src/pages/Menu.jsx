@@ -59,6 +59,18 @@ function Menu() {
             📦 Inventory
           </NavLink>
 
+          <NavLink to="/inventory-report">
+            📄 Inventory Report
+          </NavLink>
+
+          <NavLink to="/inventory-analytics">
+            📊 Inventory Analytics
+          </NavLink>
+
+          <NavLink to="/backup">
+            ☁️ Backup & Restore
+          </NavLink>
+
           <NavLink to="/settings">
             ⚙️ Settings
           </NavLink>

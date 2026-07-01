@@ -21,29 +21,43 @@ function Dashboard() {
       localStorage.getItem("farms")
     ) || [];
 
+  const inventory =
+    JSON.parse(
+      localStorage.getItem("inventory")
+    ) || [];
+
   const totalExpenses =
     expenses.reduce(
       (total, expense) =>
-        total + Number(expense.amount),
+        total +
+        Number(expense.amount || 0),
       0
     );
 
   const totalIncome =
     incomes.reduce(
       (total, income) =>
-        total + Number(income.amount),
+        total +
+        Number(income.amount || 0),
       0
     );
 
   const totalHarvestIncome =
     harvests.reduce(
       (total, harvest) =>
-        total + Number(harvest.income),
+        total +
+        Number(harvest.income || 0),
       0
     );
 
   const profit =
     totalIncome - totalExpenses;
+
+  const lowStockItems =
+    inventory.filter(
+      (item) =>
+        Number(item.quantity) <= 2
+    );
 
   return (
     <main className="dashboard">
@@ -87,15 +101,52 @@ function Dashboard() {
           title="Farms"
           value={farms.length}
         />
+
+        <DashboardCard
+          icon="📦"
+          title="Inventory"
+          value={inventory.length}
+        />
+
+        <DashboardCard
+          icon="⚠️"
+          title="Low Stock"
+          value={lowStockItems.length}
+        />
       </section>
+
+      {lowStockItems.length > 0 && (
+        <section className="tasks-card">
+          <h3>
+            ⚠️ Low Stock Alerts
+          </h3>
+
+          <ul>
+            {lowStockItems.map(
+              (item) => (
+                <li key={item.id}>
+                  📦 {item.name} (
+                  {item.quantity})
+                </li>
+              )
+            )}
+          </ul>
+        </section>
+      )}
 
       <section className="tasks-card">
         <h3>📅 Today's Tasks</h3>
 
         <ul>
-          <li>🥬 Inspect Kale Field</li>
-          <li>💧 Irrigation</li>
-          <li>🧪 Apply Fertilizer</li>
+          <li>
+            🥬 Inspect Kale Field
+          </li>
+          <li>
+            💧 Irrigation
+          </li>
+          <li>
+            🧪 Apply Fertilizer
+          </li>
         </ul>
       </section>
     </main>
