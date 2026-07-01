@@ -1,32 +1,47 @@
+import { NavLink } from "react-router-dom";
+
 function BottomNav() {
   return (
     <nav className="bottom-nav">
-
-      <button className="active">
+      <NavLink
+        to="/dashboard"
+        className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+      >
         <span>🏠</span>
-        <small>Home</small>
-      </button>
+        <small>Dashboard</small>
+      </NavLink>
 
-      <button>
-        <span>🌱</span>
-        <small>Crops</small>
-      </button>
+      <NavLink
+        to="/farms"
+        className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+      >
+        <span>🚜</span>
+        <small>Farms</small>
+      </NavLink>
 
-      <button>
+      <NavLink
+        to="/finance"
+        className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+      >
         <span>💰</span>
         <small>Finance</small>
-      </button>
+      </NavLink>
 
-      <button>
+      <NavLink
+        to="/reports"
+        className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+      >
         <span>📊</span>
         <small>Reports</small>
-      </button>
+      </NavLink>
 
-      <button>
+      <NavLink
+        to="/settings"
+        className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+      >
         <span>⚙️</span>
         <small>Settings</small>
-      </button>
-
+      </NavLink>
     </nav>
   );
 }
