@@ -5,16 +5,32 @@ import { HashRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 
+const savedTheme =
+  localStorage.getItem(
+    "darkMode"
+  );
+
+if (savedTheme === "true") {
+  document.body.classList.add(
+    "dark-mode"
+  );
+}
+
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register(
-      `${import.meta.env.BASE_URL}sw.js`
-    );
-  });
+  window.addEventListener(
+    "load",
+    () => {
+      navigator.serviceWorker.register(
+        `${import.meta.env.BASE_URL}sw.js`
+      );
+    }
+  );
 }
 
 ReactDOM.createRoot(
-  document.getElementById("root")
+  document.getElementById(
+    "root"
+  )
 ).render(
   <React.StrictMode>
     <HashRouter>

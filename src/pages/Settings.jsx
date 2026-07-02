@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 function Settings() {
   return (
     <main className="dashboard">
@@ -5,27 +7,46 @@ function Settings() {
         <h2>⚙️ Settings</h2>
 
         <div className="menu-links">
-
-          <a href="#">
+          <NavLink to="/settings/profile">
             👨‍🌾 Farmer Profile
-          </a>
+          </NavLink>
 
-          <a href="#">
+          <NavLink to="/settings/theme">
             🌙 Dark Mode
-          </a>
+          </NavLink>
 
-          <a href="#">
+          <NavLink to="/pdf-reports">
             📄 Export Reports
-          </a>
+          </NavLink>
 
-          <a href="#">
+          <NavLink to="/backup">
             💾 Backup Data
-          </a>
+          </NavLink>
 
-          <a href="#">
+          <button
+            onClick={() => {
+              if (
+                "serviceWorker" in navigator &&
+                "PushManager" in window
+              ) {
+                alert(
+                  "To install the app, open it in your browser and use Add to Home Screen."
+                );
+              } else {
+                alert(
+                  "Install is not available on this device."
+                );
+              }
+            }}
+            style={{
+              padding: "12px",
+              border: "none",
+              borderRadius: "8px",
+              cursor: "pointer",
+            }}
+          >
             📱 Install App
-          </a>
-
+          </button>
         </div>
       </div>
     </main>

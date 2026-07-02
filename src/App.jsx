@@ -20,6 +20,8 @@ import InventoryReport from "./pages/InventoryReport";
 import InventoryAnalytics from "./pages/InventoryAnalytics";
 import Backup from "./pages/Backup";
 import Settings from "./pages/Settings";
+import Profile from "./pages/Profile";
+import Theme from "./pages/Theme";
 import Menu from "./pages/Menu";
 
 function App() {
@@ -36,33 +38,105 @@ function App() {
           }
         />
 
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="farms" element={<Farms />} />
-        <Route path="fields" element={<Fields />} />
-        <Route path="crops" element={<Crops />} />
-        <Route path="finance" element={<Finance />} />
-        <Route path="income" element={<Income />} />
-        <Route path="harvests" element={<Harvests />} />
-        <Route path="activities" element={<Activities />} />
-        <Route path="weather" element={<Weather />} />
-        <Route path="analytics" element={<Analytics />} />
-        <Route path="reports" element={<Reports />} />
-        <Route path="pdf-reports" element={<PdfReports />} />
-        <Route path="inventory" element={<Inventory />} />
+        <Route
+          path="dashboard"
+          element={<Dashboard />}
+        />
+
+        <Route
+          path="farms"
+          element={<Farms />}
+        />
+
+        <Route
+          path="fields"
+          element={<Fields />}
+        />
+
+        <Route
+          path="crops"
+          element={<Crops />}
+        />
+
+        <Route
+          path="finance"
+          element={<Finance />}
+        />
+
+        <Route
+          path="income"
+          element={<Income />}
+        />
+
+        <Route
+          path="harvests"
+          element={<Harvests />}
+        />
+
+        <Route
+          path="activities"
+          element={<Activities />}
+        />
+
+        <Route
+          path="weather"
+          element={<Weather />}
+        />
+
+        <Route
+          path="analytics"
+          element={<Analytics />}
+        />
+
+        <Route
+          path="reports"
+          element={<Reports />}
+        />
+
+        <Route
+          path="pdf-reports"
+          element={<PdfReports />}
+        />
+
+        <Route
+          path="inventory"
+          element={<Inventory />}
+        />
+
         <Route
           path="inventory-report"
           element={<InventoryReport />}
         />
+
         <Route
           path="inventory-analytics"
           element={<InventoryAnalytics />}
         />
+
         <Route
           path="backup"
           element={<Backup />}
         />
-        <Route path="settings" element={<Settings />} />
-        <Route path="menu" element={<Menu />} />
+
+        <Route
+          path="settings"
+          element={<Settings />}
+        />
+
+        <Route
+          path="settings/profile"
+          element={<Profile />}
+        />
+
+        <Route
+          path="settings/theme"
+          element={<Theme />}
+        />
+
+        <Route
+          path="menu"
+          element={<Menu />}
+        />
 
         <Route
           path="*"
