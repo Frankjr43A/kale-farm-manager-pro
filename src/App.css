@@ -1,30 +1,58 @@
+:root {
+  --primary: #2e7d32;
+  --primary-light: #43a047;
+  --background: #f4f7f5;
+  --surface: #ffffff;
+  --text: #222;
+  --text-muted: #666;
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --radius: 24px;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family:
+    Inter,
+    Arial,
+    Helvetica,
+    sans-serif;
 }
 
 body {
-  background: #f4f7f5;
+  background: var(--background);
+  color: var(--text);
 }
 
 .app {
   min-height: 100vh;
-  padding-bottom: 90px;
+  padding-bottom: 100px;
 }
 
 /* Header */
 
 .header {
-  background: linear-gradient(135deg, #2e7d32, #43a047);
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary-light)
+    );
+
   color: white;
+
   padding: 24px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom-left-radius: 25px;
-  border-bottom-right-radius: 25px;
+
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.12);
 }
 
 .header h1 {
@@ -33,18 +61,21 @@ body {
 }
 
 .header p {
-  opacity: 0.9;
+  opacity: .9;
 }
 
 .profile {
   width: 60px;
   height: 60px;
   border-radius: 50%;
+
   background: white;
-  color: #2e7d32;
+  color: var(--primary);
+
   display: flex;
   justify-content: center;
   align-items: center;
+
   font-size: 30px;
 }
 
@@ -59,55 +90,73 @@ body {
 .tasks-card,
 .farm-card,
 .farm-form {
-  background: white;
-  border-radius: 18px;
-  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
 
 .welcome-card {
-  padding: 20px;
+  padding: 24px;
   margin-bottom: 20px;
 }
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(2,1fr);
+  grid-template-columns:
+    repeat(2, 1fr);
   gap: 16px;
 }
 
+/* Modern Cards */
+
 .card {
-  padding: 20px;
-  text-align: center;
-  min-height: 120px;
+  padding: 24px;
+  min-height: 140px;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 16px 40px rgba(0,0,0,.12);
 }
 
 .card-icon {
-  font-size: 28px;
-  margin-bottom: 10px;
+  font-size: 34px;
+  margin-bottom: 14px;
 }
 
 .card h3 {
+  color: #777;
+  font-size: 14px;
+  font-weight: 500;
   margin-bottom: 10px;
-  color: #666;
 }
 
 .card h2 {
-  color: #2e7d32;
+  color: var(--primary);
+  font-size: 24px;
+  font-weight: 700;
 }
 
 /* Tasks */
 
 .tasks-card {
   margin-top: 20px;
-  padding: 20px;
+  padding: 24px;
 }
 
 .tasks-card h3 {
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 }
 
 .tasks-card ul {
@@ -115,7 +164,7 @@ body {
 }
 
 .tasks-card li {
-  padding: 12px 0;
+  padding: 14px 0;
   border-bottom: 1px solid #eee;
 }
 
@@ -126,29 +175,37 @@ body {
 /* Forms */
 
 .farm-form {
-  padding: 20px;
+  padding: 24px;
 }
 
 .farm-form h2 {
   margin-bottom: 20px;
-  color: #2e7d32;
+  color: var(--primary);
 }
 
-.farm-form input {
+.farm-form input,
+.farm-form select,
+.farm-form textarea {
   width: 100%;
   padding: 14px;
   margin-bottom: 15px;
+
   border: 1px solid #ddd;
-  border-radius: 10px;
+  border-radius: 12px;
+
+  font-size: 16px;
 }
 
-.farm-form button {
-  width: 100%;
-  padding: 14px;
+.farm-form button,
+button {
+  padding: 14px 18px;
+
   border: none;
-  border-radius: 10px;
-  background: #2e7d32;
+  border-radius: 12px;
+
+  background: var(--primary);
   color: white;
+
   cursor: pointer;
   font-size: 16px;
 }
@@ -156,12 +213,12 @@ body {
 /* Cards */
 
 .farm-card {
-  padding: 20px;
+  padding: 24px;
   margin-bottom: 20px;
 }
 
 .farm-card h3 {
-  color: #2e7d32;
+  color: var(--primary);
   margin-bottom: 15px;
 }
 
@@ -172,13 +229,7 @@ body {
 /* Delete Button */
 
 .delete-btn {
-  margin-top: 15px;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 8px;
   background: #e53935;
-  color: white;
-  cursor: pointer;
 }
 
 /* Menu */
@@ -192,9 +243,12 @@ body {
 .menu-links a {
   text-decoration: none;
   color: #333;
-  padding: 16px;
+
+  padding: 18px;
   border-bottom: 1px solid #eee;
+
   font-size: 18px;
+  border-radius: 14px;
 }
 
 .menu-links a:hover {
@@ -217,7 +271,8 @@ body {
 
   padding: 12px 0;
 
-  box-shadow: 0 -3px 12px rgba(0,0,0,.1);
+  box-shadow:
+    0 -3px 20px rgba(0,0,0,.1);
 
   z-index: 1000;
 }
@@ -229,6 +284,8 @@ body {
 
   text-decoration: none;
   color: #666;
+
+  transition: .25s;
 }
 
 .nav-item span {
@@ -237,45 +294,126 @@ body {
 }
 
 .nav-item.active {
-  color: #2e7d32;
+  color: var(--primary);
   font-weight: bold;
 }
+
 /* Dark Mode */
 
 body.dark-mode {
-  background: #121212;
-  color: #ffffff;
-}
-
-body.dark-mode .welcome-card,
-body.dark-mode .card,
-body.dark-mode .tasks-card,
-body.dark-mode .farm-card,
-body.dark-mode .farm-form,
-body.dark-mode .bottom-nav {
-  background: #1e1e1e;
-  color: #ffffff;
+  --background: #121212;
+  --surface: #1e1e1e;
+  --text: #ffffff;
 }
 
 body.dark-mode .menu-links a,
 body.dark-mode .nav-item,
 body.dark-mode .farm-card p,
 body.dark-mode .tasks-card li {
-  color: #ffffff;
+  color: white;
 }
 
-body.dark-mode input,
-body.dark-mode select,
-body.dark-mode textarea {
+body.dark-mode
+.farm-form input,
+body.dark-mode
+.farm-form select,
+body.dark-mode
+.farm-form textarea {
   background: #2c2c2c;
-  color: #ffffff;
+  color: white;
   border: 1px solid #555;
 }
 
 body.dark-mode .header {
-  background: linear-gradient(
-    135deg,
-    #1b5e20,
-    #2e7d32
-  );
+  background:
+    linear-gradient(
+      135deg,
+      #1b5e20,
+      #2e7d32
+    );
+}
+/* Floating Action Button */
+
+.fab {
+  position: fixed;
+  right: 24px;
+  bottom: 100px;
+
+  width: 64px;
+  height: 64px;
+
+  border: none;
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2e7d32,
+      #43a047
+    );
+
+  color: white;
+  font-size: 32px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 12px 30px
+    rgba(46,125,50,.35);
+
+  z-index: 1001;
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.fab:hover {
+  transform: scale(1.08);
+
+  box-shadow:
+    0 18px 40px
+    rgba(46,125,50,.45);
+}
+
+/* Quick Actions Popover */
+
+.quick-actions {
+  border: none;
+  border-radius: 24px;
+
+  padding: 20px;
+
+  width: 260px;
+
+  box-shadow:
+    0 20px 50px
+    rgba(0,0,0,.18);
+
+  background: white;
+}
+
+.quick-actions::backdrop {
+  background:
+    rgba(0,0,0,.25);
+}
+
+.quick-actions h3 {
+  margin-bottom: 16px;
+  color: #2e7d32;
+}
+
+.quick-actions button {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+body.dark-mode .quick-actions {
+  background: #1e1e1e;
+  color: white;
+}
+
+body.dark-mode
+.quick-actions h3 {
+  color: #81c784;
 }

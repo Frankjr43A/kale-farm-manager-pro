@@ -1,5 +1,9 @@
 import "./App.css";
-import { Routes, Route, Navigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 import Layout from "./layouts/Layout";
 
@@ -22,12 +26,16 @@ import Backup from "./pages/Backup";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
 import Theme from "./pages/Theme";
+import AIAssistant from "./pages/AIAssistant";
 import Menu from "./pages/Menu";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
+      <Route
+        path="/"
+        element={<Layout />}
+      >
         <Route
           index
           element={
@@ -131,6 +139,11 @@ function App() {
         <Route
           path="settings/theme"
           element={<Theme />}
+        />
+
+        <Route
+          path="ai-assistant"
+          element={<AIAssistant />}
         />
 
         <Route

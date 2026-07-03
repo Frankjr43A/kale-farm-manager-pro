@@ -1,6 +1,9 @@
 import DashboardCard from "../components/DashboardCard";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
+  const navigate = useNavigate();
+
   const expenses =
     JSON.parse(
       localStorage.getItem("expenses")
@@ -149,6 +152,57 @@ function Dashboard() {
           </li>
         </ul>
       </section>
+
+      <button
+        className="fab"
+        popovertarget="quick-actions"
+      >
+        ＋
+      </button>
+
+      <div
+        id="quick-actions"
+        popover="auto"
+        className="quick-actions"
+      >
+        <h3>⚡ Quick Actions</h3>
+
+        <button
+          onClick={() =>
+            navigate("/farms")
+          }
+        >
+          🚜 Add Farm
+        </button>
+
+        <button
+          onClick={() =>
+            navigate("/finance")
+          }
+        >
+          💸 Add Expense
+        </button>
+
+        <button
+          onClick={() =>
+            navigate("/harvests")
+          }
+        >
+          🥬 Add Harvest
+        </button>
+
+        <button
+          onClick={() =>
+            navigate("/ai-assistant")
+          }
+        >
+          🤖 AI Assistant
+        </button>
+
+        <button>
+          📷 Scan Disease
+        </button>
+      </div>
     </main>
   );
 }
