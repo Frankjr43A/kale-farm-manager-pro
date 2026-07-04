@@ -1,4 +1,5 @@
 import DashboardCard from "../components/DashboardCard";
+import WeatherCard from "../components/WeatherCard";
 import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
@@ -21,7 +22,9 @@ function Dashboard() {
 
   const farms =
     JSON.parse(
-      localStorage.getItem("farms")
+      localStorage.getItem(
+        "farm-manager-pro-farms"
+      )
     ) || [];
 
   const inventory =
@@ -49,30 +52,64 @@ function Dashboard() {
     harvests.reduce(
       (total, harvest) =>
         total +
-        Number(harvest.income || 0),
+        Number(
+          harvest.income || 0
+        ),
       0
     );
 
   const profit =
-    totalIncome - totalExpenses;
+    totalIncome -
+    totalExpenses;
 
   const lowStockItems =
     inventory.filter(
       (item) =>
-        Number(item.quantity) <= 2
+        Number(
+          item.quantity
+        ) <= 2
     );
+
+  const profile =
+    JSON.parse(
+      localStorage.getItem(
+        "profile"
+      )
+    ) || {};
+
+  const farmerName =
+    profile.fullName ||
+    "Farmer";
+
+  const hour =
+    new Date().getHours();
+
+  let greeting =
+    "Good Evening";
+
+  if (hour < 12) {
+    greeting =
+      "Good Morning";
+  } else if (hour < 18) {
+    greeting =
+      "Good Afternoon";
+  }
 
   return (
     <main className="dashboard">
       <section className="welcome-card">
         <h2>
-          👋 Good Afternoon, Francis
+          👋 {greeting},{" "}
+          {farmerName}
         </h2>
 
         <p>
-          Welcome back to Farm Manager Pro.
+          Welcome back to Farm
+          Manager Pro.
         </p>
       </section>
+
+      <WeatherCard />
 
       <section className="dashboard-grid">
         <DashboardCard
@@ -114,11 +151,14 @@ function Dashboard() {
         <DashboardCard
           icon="⚠️"
           title="Low Stock"
-          value={lowStockItems.length}
+          value={
+            lowStockItems.length
+          }
         />
       </section>
 
-      {lowStockItems.length > 0 && (
+      {lowStockItems.length >
+        0 && (
         <section className="tasks-card">
           <h3>
             ⚠️ Low Stock Alerts
@@ -127,7 +167,9 @@ function Dashboard() {
           <ul>
             {lowStockItems.map(
               (item) => (
-                <li key={item.id}>
+                <li
+                  key={item.id}
+                >
                   📦 {item.name} (
                   {item.quantity})
                 </li>
@@ -138,24 +180,30 @@ function Dashboard() {
       )}
 
       <section className="tasks-card">
-        <h3>📅 Today's Tasks</h3>
+        <h3>
+          📅 Today's Tasks
+        </h3>
 
         <ul>
           <li>
-            🥬 Inspect Kale Field
+            🥬 Inspect Kale
+            Field
           </li>
+
           <li>
             💧 Irrigation
           </li>
+
           <li>
-            🧪 Apply Fertilizer
+            🧪 Apply
+            Fertilizer
           </li>
         </ul>
       </section>
 
       <button
         className="fab"
-        popovertarget="quick-actions"
+        popoverTarget="quick-actions"
       >
         ＋
       </button>
@@ -165,7 +213,9 @@ function Dashboard() {
         popover="auto"
         className="quick-actions"
       >
-        <h3>⚡ Quick Actions</h3>
+        <h3>
+          ⚡ Quick Actions
+        </h3>
 
         <button
           onClick={() =>
@@ -193,7 +243,9 @@ function Dashboard() {
 
         <button
           onClick={() =>
-            navigate("/ai-assistant")
+            navigate(
+              "/ai-assistant"
+            )
           }
         >
           🤖 AI Assistant

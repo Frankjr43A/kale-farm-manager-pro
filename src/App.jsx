@@ -22,11 +22,12 @@ import PdfReports from "./pages/PdfReports";
 import Inventory from "./pages/Inventory";
 import InventoryReport from "./pages/InventoryReport";
 import InventoryAnalytics from "./pages/InventoryAnalytics";
-import Backup from "./pages/Backup";
+import Backup from "./pages/BackupV2";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
 import Theme from "./pages/Theme";
 import AIAssistant from "./pages/AIAssistant";
+import Notifications from "./pages/Notifications";
 import Menu from "./pages/Menu";
 
 function App() {
@@ -113,17 +114,28 @@ function App() {
 
         <Route
           path="inventory-report"
-          element={<InventoryReport />}
+          element={
+            <InventoryReport />
+          }
         />
 
         <Route
           path="inventory-analytics"
-          element={<InventoryAnalytics />}
+          element={
+            <InventoryAnalytics />
+          }
         />
 
         <Route
           path="backup"
           element={<Backup />}
+        />
+
+        <Route
+          path="notifications"
+          element={
+            <Notifications />
+          }
         />
 
         <Route
@@ -143,7 +155,9 @@ function App() {
 
         <Route
           path="ai-assistant"
-          element={<AIAssistant />}
+          element={
+            <AIAssistant />
+          }
         />
 
         <Route

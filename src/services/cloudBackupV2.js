@@ -37,6 +37,11 @@ export async function createBackup(
       }
     );
 
+    localStorage.setItem(
+      "lastBackup",
+      new Date().toISOString()
+    );
+
     return {
       success: true,
       id: docRef.id,
