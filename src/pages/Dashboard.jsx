@@ -1,23 +1,31 @@
 import DashboardCard from "../components/DashboardCard";
 import WeatherCard from "../components/WeatherCard";
+import ForecastCard from "../components/ForecastCard";
 import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
-  const navigate = useNavigate();
+  const navigate =
+    useNavigate();
 
   const expenses =
     JSON.parse(
-      localStorage.getItem("expenses")
+      localStorage.getItem(
+        "expenses"
+      )
     ) || [];
 
   const incomes =
     JSON.parse(
-      localStorage.getItem("incomes")
+      localStorage.getItem(
+        "incomes"
+      )
     ) || [];
 
   const harvests =
     JSON.parse(
-      localStorage.getItem("harvests")
+      localStorage.getItem(
+        "harvests"
+      )
     ) || [];
 
   const farms =
@@ -29,14 +37,19 @@ function Dashboard() {
 
   const inventory =
     JSON.parse(
-      localStorage.getItem("inventory")
+      localStorage.getItem(
+        "inventory"
+      )
     ) || [];
 
   const totalExpenses =
     expenses.reduce(
       (total, expense) =>
         total +
-        Number(expense.amount || 0),
+        Number(
+          expense.amount ||
+            0
+        ),
       0
     );
 
@@ -44,7 +57,10 @@ function Dashboard() {
     incomes.reduce(
       (total, income) =>
         total +
-        Number(income.amount || 0),
+        Number(
+          income.amount ||
+            0
+        ),
       0
     );
 
@@ -53,7 +69,8 @@ function Dashboard() {
       (total, harvest) =>
         total +
         Number(
-          harvest.income || 0
+          harvest.income ||
+            0
         ),
       0
     );
@@ -90,7 +107,9 @@ function Dashboard() {
   if (hour < 12) {
     greeting =
       "Good Morning";
-  } else if (hour < 18) {
+  } else if (
+    hour < 18
+  ) {
     greeting =
       "Good Afternoon";
   }
@@ -99,17 +118,22 @@ function Dashboard() {
     <main className="dashboard">
       <section className="welcome-card">
         <h2>
-          👋 {greeting},{" "}
-          {farmerName}
+          👋 {greeting},
+          {" "}
+          {
+            farmerName
+          }
         </h2>
 
         <p>
-          Welcome back to Farm
-          Manager Pro.
+          Welcome back to
+          Farm Manager Pro.
         </p>
       </section>
 
       <WeatherCard />
+
+      <ForecastCard />
 
       <section className="dashboard-grid">
         <DashboardCard
@@ -139,13 +163,17 @@ function Dashboard() {
         <DashboardCard
           icon="🚜"
           title="Farms"
-          value={farms.length}
+          value={
+            farms.length
+          }
         />
 
         <DashboardCard
           icon="📦"
           title="Inventory"
-          value={inventory.length}
+          value={
+            inventory.length
+          }
         />
 
         <DashboardCard
@@ -156,28 +184,6 @@ function Dashboard() {
           }
         />
       </section>
-
-      {lowStockItems.length >
-        0 && (
-        <section className="tasks-card">
-          <h3>
-            ⚠️ Low Stock Alerts
-          </h3>
-
-          <ul>
-            {lowStockItems.map(
-              (item) => (
-                <li
-                  key={item.id}
-                >
-                  📦 {item.name} (
-                  {item.quantity})
-                </li>
-              )
-            )}
-          </ul>
-        </section>
-      )}
 
       <section className="tasks-card">
         <h3>
@@ -219,7 +225,9 @@ function Dashboard() {
 
         <button
           onClick={() =>
-            navigate("/farms")
+            navigate(
+              "/farms"
+            )
           }
         >
           🚜 Add Farm
@@ -227,7 +235,9 @@ function Dashboard() {
 
         <button
           onClick={() =>
-            navigate("/finance")
+            navigate(
+              "/finance"
+            )
           }
         >
           💸 Add Expense
@@ -235,7 +245,9 @@ function Dashboard() {
 
         <button
           onClick={() =>
-            navigate("/harvests")
+            navigate(
+              "/harvests"
+            )
           }
         >
           🥬 Add Harvest

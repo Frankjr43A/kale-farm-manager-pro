@@ -4,7 +4,6 @@ import {
 } from "react";
 
 import {
-  getWeather,
   getWeatherText,
   geocodeLocation,
 } from "../services/weatherService";
@@ -87,7 +86,7 @@ function WeatherCard() {
           ?.precipitation_probability?.[0] ??
         0;
 
-      const weatherData = {
+      setWeather({
         location:
           location ||
           "Farm Location",
@@ -107,11 +106,7 @@ function WeatherCard() {
           current.wind_speed_10m,
 
         rainChance,
-      };
-
-      setWeather(
-        weatherData
-      );
+      });
     } catch (error) {
       console.error(error);
     } finally {
@@ -235,16 +230,12 @@ function WeatherCard() {
         }}
       >
         <div>
-          💨 Wind:
-          {" "}
-          {weather.wind}
-          {" "}
-          km/h
+          💨 Wind:{" "}
+          {weather.wind} km/h
         </div>
 
         <div>
-          💧 Humidity:
-          {" "}
+          💧 Humidity:{" "}
           {
             weather.humidity
           }
@@ -252,8 +243,7 @@ function WeatherCard() {
         </div>
 
         <div>
-          🌧 Rain Chance:
-          {" "}
+          🌧 Rain Chance:{" "}
           {
             weather.rainChance
           }
@@ -268,8 +258,7 @@ function WeatherCard() {
             "bold",
         }}
       >
-        💡
-        {" "}
+        💡{" "}
         {
           recommendation
         }
