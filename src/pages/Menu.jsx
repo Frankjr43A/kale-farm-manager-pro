@@ -23,6 +23,10 @@ function Menu() {
             🥬 Crops
           </NavLink>
 
+          <NavLink to="/livestock">
+            🐔 Livestock Manager
+          </NavLink>
+
           <NavLink to="/finance">
             💸 Finance
           </NavLink>

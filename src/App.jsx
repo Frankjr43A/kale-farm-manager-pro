@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import Farms from "./pages/Farms";
 import Fields from "./pages/Fields";
 import Crops from "./pages/Crops";
+import Livestock from "./pages/Livestock";
 import Finance from "./pages/Finance";
 import Income from "./pages/Income";
 import Harvests from "./pages/Harvests";
@@ -69,6 +70,11 @@ function App() {
         />
 
         <Route
+          path="livestock"
+          element={<Livestock />}
+        />
+
+        <Route
           path="finance"
           element={<Finance />}
         />
@@ -90,9 +96,7 @@ function App() {
 
         <Route
           path="crop-calendar"
-          element={
-            <CropCalendar />
-          }
+          element={<CropCalendar />}
         />
 
         <Route
