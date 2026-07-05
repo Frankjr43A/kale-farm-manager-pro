@@ -12,6 +12,7 @@ import Farms from "./pages/Farms";
 import Fields from "./pages/Fields";
 import Crops from "./pages/Crops";
 import Livestock from "./pages/Livestock";
+import LivestockReports from "./pages/LivestockReports";
 import Vaccinations from "./pages/Vaccinations";
 import Finance from "./pages/Finance";
 import Income from "./pages/Income";
@@ -73,6 +74,13 @@ function App() {
         <Route
           path="livestock"
           element={<Livestock />}
+        />
+
+        <Route
+          path="livestock-reports"
+          element={
+            <LivestockReports />
+          }
         />
 
         <Route
