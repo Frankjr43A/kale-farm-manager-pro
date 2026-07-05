@@ -1,8 +1,19 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 
 function Header() {
-  const navigate = useNavigate();
+  const navigate =
+    useNavigate();
+
+  const location =
+    useLocation();
 
   const [profile, setProfile] =
     useState({});
@@ -35,15 +46,14 @@ function Header() {
       );
 
     if (backup) {
-      const date =
-        new Date(backup);
-
       setLastBackup(
-        date.toLocaleString()
+        new Date(
+          backup
+        ).toLocaleString()
       );
     }
 
-    const todayDate =
+    setToday(
       new Date().toLocaleDateString(
         undefined,
         {
@@ -52,9 +62,8 @@ function Header() {
           month: "long",
           day: "numeric",
         }
-      );
-
-    setToday(todayDate);
+      )
+    );
 
     const inventory =
       JSON.parse(
@@ -71,13 +80,12 @@ function Header() {
           ) <= 2
       );
 
-    const taskAlerts = 3;
-
     setNotifications(
-      lowStock.length +
-        taskAlerts
+      lowStock.length + 3
     );
+  }, [location.pathname]);
 
+  useEffect(() => {
     function goOnline() {
       setIsOnline(true);
     }
@@ -117,8 +125,7 @@ function Header() {
         </h1>
 
         <p>
-          Smart Farming Made
-          Simple
+          Smart Farming Made Simple
         </p>
 
         <small>
@@ -128,8 +135,7 @@ function Header() {
         <br />
 
         <small>
-          ☁️ Last backup:
-          {" "}
+          ☁️ Last backup:{" "}
           {lastBackup ||
             "Never"}
         </small>
@@ -178,25 +184,28 @@ function Header() {
               )
             }
             style={{
-              marginTop: "6px",
-              border: "none",
+              marginTop:
+                "6px",
+              border:
+                "none",
               background:
                 "rgba(255,255,255,.2)",
-              color: "white",
+              color:
+                "white",
               padding:
                 "6px 10px",
               borderRadius:
                 "10px",
-              cursor: "pointer",
-              fontSize: "12px",
+              cursor:
+                "pointer",
+              fontSize:
+                "12px",
             }}
           >
-            🔔
-            {" "}
+            🔔{" "}
             {
               notifications
-            }
-            {" "}
+            }{" "}
             Alerts
           </button>
         </div>
