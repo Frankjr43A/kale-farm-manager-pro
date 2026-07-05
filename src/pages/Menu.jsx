@@ -27,6 +27,10 @@ function Menu() {
             🐔 Livestock Manager
           </NavLink>
 
+          <NavLink to="/vaccinations">
+            💉 Vaccinations
+          </NavLink>
+
           <NavLink to="/finance">
             💸 Finance
           </NavLink>
