@@ -29,6 +29,7 @@ import Theme from "./pages/Theme";
 import AIAssistant from "./pages/AIAssistant";
 import Notifications from "./pages/Notifications";
 import Menu from "./pages/Menu";
+import CropCalendar from "./pages/CropCalendar";
 
 function App() {
   return (
@@ -85,6 +86,13 @@ function App() {
         <Route
           path="activities"
           element={<Activities />}
+        />
+
+        <Route
+          path="crop-calendar"
+          element={
+            <CropCalendar />
+          }
         />
 
         <Route

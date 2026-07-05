@@ -1,6 +1,8 @@
 import DashboardCard from "../components/DashboardCard";
 import WeatherCard from "../components/WeatherCard";
 import ForecastCard from "../components/ForecastCard";
+import WeatherAlerts from "../components/WeatherAlerts";
+import UpcomingActivities from "../components/UpcomingActivities";
 import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
@@ -135,6 +137,10 @@ function Dashboard() {
 
       <ForecastCard />
 
+      <WeatherAlerts />
+
+      <UpcomingActivities />
+
       <section className="dashboard-grid">
         <DashboardCard
           icon="💰"
@@ -184,6 +190,38 @@ function Dashboard() {
           }
         />
       </section>
+
+      {lowStockItems.length >
+        0 && (
+        <section className="tasks-card">
+          <h3>
+            ⚠️ Low Stock
+            Alerts
+          </h3>
+
+          <ul>
+            {lowStockItems.map(
+              (item) => (
+                <li
+                  key={
+                    item.id
+                  }
+                >
+                  📦{" "}
+                  {
+                    item.name
+                  }
+                  {" ("}
+                  {
+                    item.quantity
+                  }
+                  {")"}
+                </li>
+              )
+            )}
+          </ul>
+        </section>
+      )}
 
       <section className="tasks-card">
         <h3>
@@ -251,6 +289,16 @@ function Dashboard() {
           }
         >
           🥬 Add Harvest
+        </button>
+
+        <button
+          onClick={() =>
+            navigate(
+              "/crop-calendar"
+            )
+          }
+        >
+          📅 Crop Calendar
         </button>
 
         <button

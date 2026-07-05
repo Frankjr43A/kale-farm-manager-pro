@@ -39,6 +39,10 @@ function Menu() {
             📅 Activities
           </NavLink>
 
+          <NavLink to="/crop-calendar">
+            🗓 Crop Calendar
+          </NavLink>
+
           <NavLink to="/weather">
             🌤 Weather
           </NavLink>
