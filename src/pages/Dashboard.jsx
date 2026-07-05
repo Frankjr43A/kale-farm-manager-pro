@@ -3,6 +3,7 @@ import WeatherCard from "../components/WeatherCard";
 import ForecastCard from "../components/ForecastCard";
 import WeatherAlerts from "../components/WeatherAlerts";
 import UpcomingActivities from "../components/UpcomingActivities";
+import FarmNotifications from "../components/FarmNotifications";
 import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
@@ -132,6 +133,8 @@ function Dashboard() {
           Farm Manager Pro.
         </p>
       </section>
+
+      <FarmNotifications />
 
       <WeatherCard />
 
