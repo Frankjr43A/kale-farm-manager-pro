@@ -14,6 +14,7 @@ import Crops from "./pages/Crops";
 import Livestock from "./pages/Livestock";
 import LivestockReports from "./pages/LivestockReports";
 import Vaccinations from "./pages/Vaccinations";
+import DiseaseScanner from "./pages/DiseaseScanner";
 import Finance from "./pages/Finance";
 import Income from "./pages/Income";
 import Harvests from "./pages/Harvests";
@@ -87,6 +88,13 @@ function App() {
           path="vaccinations"
           element={
             <Vaccinations />
+          }
+        />
+
+        <Route
+          path="disease-scanner"
+          element={
+            <DiseaseScanner />
           }
         />
 

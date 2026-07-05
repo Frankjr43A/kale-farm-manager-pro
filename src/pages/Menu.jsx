@@ -35,6 +35,10 @@ function Menu() {
             💉 Vaccinations
           </NavLink>
 
+          <NavLink to="/disease-scanner">
+            📷 Disease Scanner
+          </NavLink>
+
           <NavLink to="/finance">
             💸 Finance
           </NavLink>
