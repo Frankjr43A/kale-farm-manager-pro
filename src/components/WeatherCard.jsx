@@ -9,10 +9,12 @@ import {
 } from "../services/weatherService";
 
 function WeatherCard() {
-  const [weather, setWeather] =
+  const [weather,
+    setWeather] =
     useState(null);
 
-  const [loading, setLoading] =
+  const [loading,
+    setLoading] =
     useState(true);
 
   useEffect(() => {
@@ -53,7 +55,9 @@ function WeatherCard() {
             location
           );
 
-        if (geo.success) {
+        if (
+          geo.success
+        ) {
           latitude =
             geo.latitude;
 
@@ -86,31 +90,43 @@ function WeatherCard() {
           ?.precipitation_probability?.[0] ??
         0;
 
-      setWeather({
-        location:
-          location ||
-          "Farm Location",
+      const weatherData =
+        {
+          location:
+            location,
+          temperature:
+            current.temperature_2m,
+          condition:
+            getWeatherText(
+              current.weather_code
+            ),
+          humidity:
+            current.relative_humidity_2m,
+          wind:
+            current.wind_speed_10m,
+          rainChance,
+        };
 
-        temperature:
-          current.temperature_2m,
+      setWeather(
+        weatherData
+      );
 
-        condition:
-          getWeatherText(
-            current.weather_code
-          ),
-
-        humidity:
-          current.relative_humidity_2m,
-
-        wind:
-          current.wind_speed_10m,
-
-        rainChance,
-      });
-    } catch (error) {
-      console.error(error);
+      localStorage.setItem(
+        "currentWeather",
+        JSON.stringify(
+          weatherData
+        )
+      );
+    } catch (
+      error
+    ) {
+      console.error(
+        error
+      );
     } finally {
-      setLoading(false);
+      setLoading(
+        false
+      );
     }
   }
 
@@ -140,74 +156,22 @@ function WeatherCard() {
     );
   }
 
-  let recommendation =
-    "Good day for farming activities.";
-
-  if (
-    weather.condition.includes(
-      "Rain"
-    )
-  ) {
-    recommendation =
-      "Possible rain. Avoid spraying pesticides and foliar fertilizers.";
-  } else if (
-    weather.condition.includes(
-      "Thunder"
-    )
-  ) {
-    recommendation =
-      "Thunderstorms possible. Stay out of fields and protect equipment.";
-  } else if (
-    weather.condition.includes(
-      "Overcast"
-    )
-  ) {
-    recommendation =
-      "Good day for planting and transplanting. Monitor for possible showers later.";
-  } else if (
-    weather.humidity >= 80
-  ) {
-    recommendation =
-      "High humidity. Monitor crops for fungal diseases and avoid unnecessary irrigation.";
-  } else if (
-    weather.condition.includes(
-      "Cloud"
-    ) ||
-    weather.condition.includes(
-      "Partly"
-    )
-  ) {
-    recommendation =
-      "Good conditions for field work.";
-  } else if (
-    weather.condition.includes(
-      "Clear"
-    )
-  ) {
-    recommendation =
-      "Good day for irrigation and spraying.";
-  }
-
   return (
     <section className="weather-card">
-      <div>
-        <h3>
-          🌤 Weather
-        </h3>
+      <h3>
+        🌤 Weather
+      </h3>
 
-        <p>
-          📍{" "}
-          {
-            weather.location
-          }
-        </p>
-      </div>
+      <p>
+        📍
+        {" "}
+        {
+          weather.location
+        }
+      </p>
 
       <div
         className="weather-temp"
-        style={{
-          marginTop: "16px",
-        }}
       >
         <h2>
           {
@@ -225,17 +189,25 @@ function WeatherCard() {
 
       <div
         style={{
-          marginTop: "16px",
-          lineHeight: "1.8",
+          marginTop:
+            "16px",
+          lineHeight:
+            "1.8",
         }}
       >
         <div>
-          💨 Wind:{" "}
-          {weather.wind} km/h
+          💨 Wind:
+          {" "}
+          {
+            weather.wind
+          }
+          {" "}
+          km/h
         </div>
 
         <div>
-          💧 Humidity:{" "}
+          💧 Humidity:
+          {" "}
           {
             weather.humidity
           }
@@ -243,26 +215,14 @@ function WeatherCard() {
         </div>
 
         <div>
-          🌧 Rain Chance:{" "}
+          🌧 Rain Chance:
+          {" "}
           {
             weather.rainChance
           }
           %
         </div>
       </div>
-
-      <p
-        style={{
-          marginTop: "18px",
-          fontWeight:
-            "bold",
-        }}
-      >
-        💡{" "}
-        {
-          recommendation
-        }
-      </p>
     </section>
   );
 }
