@@ -1,108 +1,93 @@
-import jsPDF from "jspdf";
+import {
+  exportLivestockReport,
+  exportDiseaseReport,
+  exportFinanceReport,
+  exportFarmSummary,
+} from "../services/pdfService";
 
 function PdfReports() {
-  const downloadReport = () => {
-    const doc = new jsPDF();
-
-    const incomes =
-      JSON.parse(
-        localStorage.getItem("incomes")
-      ) || [];
-
-    const expenses =
-      JSON.parse(
-        localStorage.getItem("expenses")
-      ) || [];
-
-    const harvests =
-      JSON.parse(
-        localStorage.getItem("harvests")
-      ) || [];
-
-    const totalIncome =
-      incomes.reduce(
-        (sum, item) =>
-          sum + Number(item.amount || 0),
-        0
-      );
-
-    const totalExpenses =
-      expenses.reduce(
-        (sum, item) =>
-          sum + Number(item.amount || 0),
-        0
-      );
-
-    const totalHarvest =
-      harvests.reduce(
-        (sum, item) =>
-          sum + Number(item.income || 0),
-        0
-      );
-
-    const profit =
-      totalIncome - totalExpenses;
-
-    doc.setFontSize(20);
-    doc.text(
-      "Farm Manager Pro Report",
-      20,
-      20
-    );
-
-    doc.setFontSize(14);
-
-    doc.text(
-      `Income: KES ${totalIncome}`,
-      20,
-      50
-    );
-
-    doc.text(
-      `Expenses: KES ${totalExpenses}`,
-      20,
-      70
-    );
-
-    doc.text(
-      `Profit: KES ${profit}`,
-      20,
-      90
-    );
-
-    doc.text(
-      `Harvest Income: KES ${totalHarvest}`,
-      20,
-      110
-    );
-
-    doc.save(
-      "farm-manager-report.pdf"
-    );
-  };
-
   return (
     <main className="dashboard">
-      <div className="farm-card">
-        <h2>📄 PDF Reports</h2>
+      <h2>
+        📄 PDF Reports Center
+      </h2>
 
-        <p
-          style={{
-            marginTop: 20,
-            marginBottom: 20,
-          }}
-        >
-          Export your farm summary
-          as a PDF document.
+      <section className="farm-card">
+        <h3>
+          📊 Farm Summary
+        </h3>
+
+        <p>
+          Export your farm profile
+          and farm information.
         </p>
 
         <button
-          className="delete-btn"
-          onClick={downloadReport}
+          onClick={
+            exportFarmSummary
+          }
         >
-          📄 Download PDF Report
+          📄 Export Farm Summary
         </button>
-      </div>
+      </section>
+
+      <section className="farm-card">
+        <h3>
+          💸 Finance Reports
+        </h3>
+
+        <p>
+          Export income and
+          expense records.
+        </p>
+
+        <button
+          onClick={
+            exportFinanceReport
+          }
+        >
+          📄 Export Finance Report
+        </button>
+      </section>
+
+      <section className="farm-card">
+        <h3>
+          🐔 Livestock Reports
+        </h3>
+
+        <p>
+          Export poultry and
+          livestock records.
+        </p>
+
+        <button
+          onClick={
+            exportLivestockReport
+          }
+        >
+          📄 Export Livestock Report
+        </button>
+      </section>
+
+      <section className="farm-card">
+        <h3>
+          🌿 Disease Reports
+        </h3>
+
+        <p>
+          Export all disease
+          diagnoses and
+          recommendations.
+        </p>
+
+        <button
+          onClick={
+            exportDiseaseReport
+          }
+        >
+          📄 Export Disease Report
+        </button>
+      </section>
     </main>
   );
 }
