@@ -3,13 +3,13 @@ import {
   useState,
 } from "react";
 
+import LivestockStats from "../components/LivestockStats";
+
 function Livestock() {
-  const [records,
-    setRecords] =
+  const [records, setRecords] =
     useState([]);
 
-  const [form,
-    setForm] =
+  const [form, setForm] =
     useState({
       date: "",
       birds: "",
@@ -30,9 +30,7 @@ function Livestock() {
     setRecords(saved);
   }, []);
 
-  function handleChange(
-    e
-  ) {
+  function handleChange(e) {
     setForm({
       ...form,
       [e.target.name]:
@@ -40,14 +38,11 @@ function Livestock() {
     });
   }
 
-  function saveRecord(
-    e
-  ) {
+  function saveRecord(e) {
     e.preventDefault();
 
     const newRecord = {
-      id:
-        Date.now(),
+      id: Date.now(),
       ...form,
     };
 
@@ -56,15 +51,11 @@ function Livestock() {
       newRecord,
     ];
 
-    setRecords(
-      updated
-    );
+    setRecords(updated);
 
     localStorage.setItem(
       "livestock",
-      JSON.stringify(
-        updated
-      )
+      JSON.stringify(updated)
     );
 
     setForm({
@@ -77,47 +68,37 @@ function Livestock() {
     });
   }
 
-  function deleteRecord(
-    id
-  ) {
+  function deleteRecord(id) {
     const updated =
       records.filter(
         (record) =>
-          record.id !==
-          id
+          record.id !== id
       );
 
-    setRecords(
-      updated
-    );
+    setRecords(updated);
 
     localStorage.setItem(
       "livestock",
-      JSON.stringify(
-        updated
-      )
+      JSON.stringify(updated)
     );
   }
 
   return (
     <main className="dashboard">
+      <h2>
+        🐔 Livestock Manager
+      </h2>
+
+      <LivestockStats />
+
       <form
         className="farm-form"
-        onSubmit={
-          saveRecord
-        }
+        onSubmit={saveRecord}
       >
-        <h2>
-          🐔 Livestock
-          Manager
-        </h2>
-
         <input
           type="date"
           name="date"
-          value={
-            form.date
-          }
+          value={form.date}
           onChange={
             handleChange
           }
@@ -128,9 +109,7 @@ function Livestock() {
           type="number"
           name="birds"
           placeholder="Number of Birds"
-          value={
-            form.birds
-          }
+          value={form.birds}
           onChange={
             handleChange
           }
@@ -140,9 +119,7 @@ function Livestock() {
           type="number"
           name="eggs"
           placeholder="Eggs Collected"
-          value={
-            form.eggs
-          }
+          value={form.eggs}
           onChange={
             handleChange
           }
@@ -152,9 +129,7 @@ function Livestock() {
           type="number"
           name="feed"
           placeholder="Feed Used (Kg)"
-          value={
-            form.feed
-          }
+          value={form.feed}
           onChange={
             handleChange
           }
@@ -164,9 +139,7 @@ function Livestock() {
           type="number"
           name="deaths"
           placeholder="Bird Deaths"
-          value={
-            form.deaths
-          }
+          value={form.deaths}
           onChange={
             handleChange
           }
@@ -175,24 +148,18 @@ function Livestock() {
         <textarea
           name="notes"
           placeholder="Notes"
-          value={
-            form.notes
-          }
+          value={form.notes}
           onChange={
             handleChange
           }
         />
 
-        <button
-          type="submit"
-        >
+        <button type="submit">
           ➕ Save Record
         </button>
       </form>
 
-      <section
-        className="tasks-card"
-      >
+      <section className="tasks-card">
         <h3>
           Livestock Records
         </h3>
@@ -207,47 +174,38 @@ function Livestock() {
           records.map(
             (record) => (
               <div
-                key={
-                  record.id
-                }
+                key={record.id}
                 className="farm-card"
               >
                 <h3>
                   📅{" "}
-                  {
-                    record.date
-                  }
+                  {record.date}
                 </h3>
 
                 <p>
-                  🐔 Birds:
-                  {" "}
+                  🐔 Birds:{" "}
                   {
                     record.birds
                   }
                 </p>
 
                 <p>
-                  🥚 Eggs:
-                  {" "}
+                  🥚 Eggs:{" "}
                   {
                     record.eggs
                   }
                 </p>
 
                 <p>
-                  🌽 Feed:
-                  {" "}
+                  🌽 Feed:{" "}
                   {
                     record.feed
-                  }
-                  {" "}
+                  }{" "}
                   Kg
                 </p>
 
                 <p>
-                  💀 Deaths:
-                  {" "}
+                  💀 Deaths:{" "}
                   {
                     record.deaths
                   }
