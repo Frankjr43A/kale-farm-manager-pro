@@ -1,3 +1,5 @@
+import LivestockCharts from "../components/LivestockCharts";
+
 function LivestockReports() {
   const records =
     JSON.parse(
@@ -180,6 +182,8 @@ function LivestockReports() {
           {profit.toLocaleString()}
         </p>
       </section>
+
+      <LivestockCharts />
     </main>
   );
 }
