@@ -4,6 +4,7 @@ import ForecastCard from "../components/ForecastCard";
 import WeatherAlerts from "../components/WeatherAlerts";
 import UpcomingActivities from "../components/UpcomingActivities";
 import FarmNotifications from "../components/FarmNotifications";
+import VaccinationReminders from "../components/VaccinationReminders";
 import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
@@ -121,11 +122,8 @@ function Dashboard() {
     <main className="dashboard">
       <section className="welcome-card">
         <h2>
-          👋 {greeting},
-          {" "}
-          {
-            farmerName
-          }
+          👋 {greeting},{" "}
+          {farmerName}
         </h2>
 
         <p>
@@ -135,6 +133,8 @@ function Dashboard() {
       </section>
 
       <FarmNotifications />
+
+      <VaccinationReminders />
 
       <WeatherCard />
 
@@ -172,17 +172,13 @@ function Dashboard() {
         <DashboardCard
           icon="🚜"
           title="Farms"
-          value={
-            farms.length
-          }
+          value={farms.length}
         />
 
         <DashboardCard
           icon="📦"
           title="Inventory"
-          value={
-            inventory.length
-          }
+          value={inventory.length}
         />
 
         <DashboardCard
@@ -206,14 +202,9 @@ function Dashboard() {
             {lowStockItems.map(
               (item) => (
                 <li
-                  key={
-                    item.id
-                  }
+                  key={item.id}
                 >
-                  📦{" "}
-                  {
-                    item.name
-                  }
+                  📦 {item.name}
                   {" ("}
                   {
                     item.quantity
@@ -302,6 +293,16 @@ function Dashboard() {
           }
         >
           📅 Crop Calendar
+        </button>
+
+        <button
+          onClick={() =>
+            navigate(
+              "/vaccinations"
+            )
+          }
+        >
+          💉 Vaccinations
         </button>
 
         <button
