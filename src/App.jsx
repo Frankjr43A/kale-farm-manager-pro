@@ -16,9 +16,12 @@ import LivestockReports from "./pages/LivestockReports";
 import Vaccinations from "./pages/Vaccinations";
 import DiseaseScanner from "./pages/DiseaseScanner";
 import DiseaseHistory from "./pages/DiseaseHistory";
+
+import MarketDashboard from "./pages/Market/MarketDashboard";
 import MarketPrices from "./pages/MarketPrices";
 import MarketReports from "./pages/MarketReports";
 import MarketAnalytics from "./pages/MarketAnalytics";
+
 import Finance from "./pages/Finance";
 import Income from "./pages/Income";
 import Harvests from "./pages/Harvests";
@@ -99,6 +102,11 @@ function App() {
         <Route
           path="disease-history"
           element={<DiseaseHistory />}
+        />
+
+        <Route
+          path="market-dashboard"
+          element={<MarketDashboard />}
         />
 
         <Route
