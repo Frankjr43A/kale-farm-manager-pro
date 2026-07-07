@@ -4,7 +4,9 @@ function Menu() {
   return (
     <main className="dashboard">
       <div className="farm-card">
-        <h2>☰ Farm Manager Menu</h2>
+        <h2>
+          ☰ Farm Manager Menu
+        </h2>
 
         <div className="menu-links">
           <NavLink to="/dashboard">
@@ -41,6 +43,18 @@ function Menu() {
 
           <NavLink to="/disease-history">
             📋 Disease History
+          </NavLink>
+
+          <NavLink to="/market-prices">
+            💹 Market Prices
+          </NavLink>
+
+          <NavLink to="/market-reports">
+            👥 Community Market Reports
+          </NavLink>
+
+          <NavLink to="/market-analytics">
+            📊 Market Analytics
           </NavLink>
 
           <NavLink to="/finance">

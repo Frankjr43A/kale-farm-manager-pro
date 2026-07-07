@@ -16,6 +16,9 @@ import LivestockReports from "./pages/LivestockReports";
 import Vaccinations from "./pages/Vaccinations";
 import DiseaseScanner from "./pages/DiseaseScanner";
 import DiseaseHistory from "./pages/DiseaseHistory";
+import MarketPrices from "./pages/MarketPrices";
+import MarketReports from "./pages/MarketReports";
+import MarketAnalytics from "./pages/MarketAnalytics";
 import Finance from "./pages/Finance";
 import Income from "./pages/Income";
 import Harvests from "./pages/Harvests";
@@ -80,30 +83,37 @@ function App() {
 
         <Route
           path="livestock-reports"
-          element={
-            <LivestockReports />
-          }
+          element={<LivestockReports />}
         />
 
         <Route
           path="vaccinations"
-          element={
-            <Vaccinations />
-          }
+          element={<Vaccinations />}
         />
 
         <Route
           path="disease-scanner"
-          element={
-            <DiseaseScanner />
-          }
+          element={<DiseaseScanner />}
         />
 
         <Route
           path="disease-history"
-          element={
-            <DiseaseHistory />
-          }
+          element={<DiseaseHistory />}
+        />
+
+        <Route
+          path="market-prices"
+          element={<MarketPrices />}
+        />
+
+        <Route
+          path="market-reports"
+          element={<MarketReports />}
+        />
+
+        <Route
+          path="market-analytics"
+          element={<MarketAnalytics />}
         />
 
         <Route
@@ -158,16 +168,12 @@ function App() {
 
         <Route
           path="inventory-report"
-          element={
-            <InventoryReport />
-          }
+          element={<InventoryReport />}
         />
 
         <Route
           path="inventory-analytics"
-          element={
-            <InventoryAnalytics />
-          }
+          element={<InventoryAnalytics />}
         />
 
         <Route
@@ -177,9 +183,7 @@ function App() {
 
         <Route
           path="notifications"
-          element={
-            <Notifications />
-          }
+          element={<Notifications />}
         />
 
         <Route
@@ -199,9 +203,7 @@ function App() {
 
         <Route
           path="ai-assistant"
-          element={
-            <AIAssistant />
-          }
+          element={<AIAssistant />}
         />
 
         <Route

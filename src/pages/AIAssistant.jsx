@@ -1,52 +1,172 @@
-import {
-  useState,
-} from "react";
+import { useState } from "react";
 
 import {
-  getFarmingAdvice,
-} from "../services/farmingAdvisor";
+  getFarmAdvice,
+} from "../services/smartFarmAI";
+
+import {
+  askOnlineFarmAI,
+} from "../services/onlineFarmAI";
+
+import VoiceControls from "../components/VoiceControls";
+
+import {
+  speak,
+} from "../services/voiceAssistant";
 
 function AIAssistant() {
-  const [question,
-    setQuestion] =
+  const [question, setQuestion] =
     useState("");
 
-  const [answer,
-    setAnswer] =
+  const [answer, setAnswer] =
     useState("");
 
-  function askAI(e) {
-    e.preventDefault();
+  const [thinking, setThinking] =
+    useState(false);
 
-    const weather =
-      JSON.parse(
-        localStorage.getItem(
-          "currentWeather"
+  async function askAI(e) {
+    if (e) {
+      e.preventDefault();
+    }
+
+    if (!question.trim()) {
+      return;
+    }
+
+    setThinking(true);
+
+    try {
+      let response;
+
+      // Online AI
+      if (navigator.onLine) {
+        response =
+          await askOnlineFarmAI(
+            question
+          );
+
+        if (
+          response.success
+        ) {
+          setAnswer(
+            response.answer
+          );
+
+          speak(
+            response.answer
+          );
+
+          setThinking(
+            false
+          );
+
+          return;
+        }
+      }
+
+      // Offline AI
+      const text =
+        question.toLowerCase();
+
+      let category =
+        "Tomatoes";
+
+      if (
+        text.includes(
+          "chicken"
+        ) ||
+        text.includes(
+          "bird"
+        ) ||
+        text.includes(
+          "layer"
+        ) ||
+        text.includes(
+          "poultry"
+        ) ||
+        text.includes(
+          "egg"
         )
-      ) || {};
+      ) {
+        category =
+          "Layers";
+      } else if (
+        text.includes(
+          "kale"
+        )
+      ) {
+        category =
+          "Kale";
+      }
 
-    const response =
-      getFarmingAdvice(
-        question,
-        weather
+      response =
+        getFarmAdvice(
+          category,
+          question
+        );
+
+      const offlineAnswer =
+        response.success
+          ? `Possible ${response.disease}.
+
+Treatment:
+${response.treatment}
+
+Prevention:
+${response.prevention}`
+          : response.treatment;
+
+      setAnswer(
+        offlineAnswer
       );
 
-    setAnswer(
-      response
-    );
+      speak(
+        offlineAnswer
+      );
+    } finally {
+      setThinking(false);
+    }
+  }
+
+  function handleTranscript(
+    text
+  ) {
+    setQuestion(text);
+
+    setTimeout(() => {
+      askAI();
+    }, 500);
   }
 
   return (
     <main className="dashboard">
       <div className="farm-form">
         <h2>
-          🤖 Smart Farming AI
+          🤖 Smart Farm AI
         </h2>
 
         <p>
           Ask me anything
-          about your farm.
+          about:
         </p>
+
+        <ul>
+          <li>
+            🥬 Kale
+          </li>
+
+          <li>
+            🍅 Tomatoes
+          </li>
+
+          <li>
+            🐔 Poultry
+          </li>
+
+          <li>
+            🌤 Farming
+          </li>
+        </ul>
 
         <form
           onSubmit={
@@ -54,7 +174,7 @@ function AIAssistant() {
           }
         >
           <textarea
-            placeholder="Example: Should I spray tomatoes today?"
+            placeholder="Example: My layers have green diarrhea."
             value={
               question
             }
@@ -71,10 +191,22 @@ function AIAssistant() {
 
           <button
             type="submit"
+            disabled={
+              thinking
+            }
           >
-            🤖 Ask AI
+            {thinking
+              ? "🤖 Thinking..."
+              : "🤖 Ask Farm AI"}
           </button>
         </form>
+
+        <VoiceControls
+          onTranscript={
+            handleTranscript
+          }
+          answer={answer}
+        />
 
         {answer && (
           <div
@@ -85,13 +217,17 @@ function AIAssistant() {
             }}
           >
             <h3>
-              AI Advice
+              🌿 Farm AI
+              Response
             </h3>
 
-            <p>
-              {
-                answer
-              }
+            <p
+              style={{
+                whiteSpace:
+                  "pre-line",
+              }}
+            >
+              {answer}
             </p>
           </div>
         )}

@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import DashboardCard from "../components/DashboardCard";
 import WeatherCard from "../components/WeatherCard";
 import ForecastCard from "../components/ForecastCard";
@@ -5,11 +8,36 @@ import WeatherAlerts from "../components/WeatherAlerts";
 import UpcomingActivities from "../components/UpcomingActivities";
 import FarmNotifications from "../components/FarmNotifications";
 import VaccinationReminders from "../components/VaccinationReminders";
-import { useNavigate } from "react-router-dom";
+import FarmCopilot from "../components/FarmCopilot";
+
+import {
+  playCopilotNarration,
+} from "../services/copilotNarration";
 
 function Dashboard() {
   const navigate =
     useNavigate();
+
+  useEffect(() => {
+    const enabled =
+      localStorage.getItem(
+        "copilotNarration"
+      );
+
+    if (
+      enabled !== "false"
+    ) {
+      const timer =
+        setTimeout(() => {
+          playCopilotNarration();
+        }, 1500);
+
+      return () =>
+        clearTimeout(
+          timer
+        );
+    }
+  }, []);
 
   const expenses =
     JSON.parse(
@@ -131,6 +159,8 @@ function Dashboard() {
           Farm Manager Pro.
         </p>
       </section>
+
+      <FarmCopilot />
 
       <FarmNotifications />
 
@@ -315,7 +345,13 @@ function Dashboard() {
           🤖 AI Assistant
         </button>
 
-        <button>
+        <button
+          onClick={() =>
+            navigate(
+              "/disease-scanner"
+            )
+          }
+        >
           📷 Scan Disease
         </button>
       </div>
