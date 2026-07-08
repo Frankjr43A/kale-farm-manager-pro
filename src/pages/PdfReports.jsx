@@ -1,93 +1,80 @@
+/*
+==========================================================
+
+Farm Manager Pro
+
+PDF Reports Center
+
+Version : 2.4.0
+
+Developer : Francis Junior
+
+==========================================================
+*/
+
 import {
+  exportFarmSummary,
+  exportFinanceReport,
   exportLivestockReport,
   exportDiseaseReport,
-  exportFinanceReport,
-  exportFarmSummary,
 } from "../services/pdfService";
 
 function PdfReports() {
   return (
     <main className="dashboard">
-      <h2>
-        📄 PDF Reports Center
-      </h2>
 
-      <section className="farm-card">
-        <h3>
-          📊 Farm Summary
-        </h3>
+      <div className="farm-card">
+        <h2>
+          📄 PDF Reports Center
+        </h2>
 
         <p>
-          Export your farm profile
-          and farm information.
+          Generate professional PDF reports
+          for your farm records.
         </p>
+      </div>
 
-        <button
-          onClick={
-            exportFarmSummary
-          }
-        >
-          📄 Export Farm Summary
-        </button>
-      </section>
+      <div className="tasks-card">
 
-      <section className="farm-card">
         <h3>
-          💸 Finance Reports
+          🚜 Farm Reports
         </h3>
 
-        <p>
-          Export income and
-          expense records.
-        </p>
+        <button
+          onClick={exportFarmSummary}
+        >
+          📄 Farm Summary
+        </button>
+
+        <br />
+        <br />
 
         <button
-          onClick={
-            exportFinanceReport
-          }
+          onClick={exportFinanceReport}
         >
-          📄 Export Finance Report
+          💰 Finance Report
         </button>
-      </section>
 
-      <section className="farm-card">
-        <h3>
-          🐔 Livestock Reports
-        </h3>
-
-        <p>
-          Export poultry and
-          livestock records.
-        </p>
+        <br />
+        <br />
 
         <button
-          onClick={
-            exportLivestockReport
-          }
+          onClick={exportLivestockReport}
         >
-          📄 Export Livestock Report
+          🐔 Livestock Report
         </button>
-      </section>
 
-      <section className="farm-card">
-        <h3>
-          🌿 Disease Reports
-        </h3>
-
-        <p>
-          Export all disease
-          diagnoses and
-          recommendations.
-        </p>
+        <br />
+        <br />
 
         <button
-          onClick={
-            exportDiseaseReport
-          }
+          onClick={exportDiseaseReport}
         >
-          📄 Export Disease Report
+          🌿 Disease Report
         </button>
-      </section>
+
+      </div>
+
     </main>
   );
 }

@@ -1,82 +1,83 @@
+/*
+==========================================================
+
+Farm Manager Pro
+
+Production Voice Assistant
+
+Version : 3.0.0
+
+Developer : Francis Junior
+
+==========================================================
+*/
+
+let synthesis = window.speechSynthesis;
+
 export function speak(text) {
-  if (!("speechSynthesis" in window)) {
-    console.log(
-      "Text-to-speech not supported."
-    );
-    return;
+  if (!("speechSynthesis" in window)) return;
+
+  synthesis.cancel();
+
+  const speech = new SpeechSynthesisUtterance(text);
+
+  speech.lang = "en-US";
+  speech.rate = 1;
+  speech.pitch = 1;
+  speech.volume = 1;
+
+  const voices = synthesis.getVoices();
+
+  const englishVoice = voices.find(
+    (voice) =>
+      voice.lang.startsWith("en") &&
+      !voice.localService
+  ) || voices.find((voice) => voice.lang.startsWith("en"));
+
+  if (englishVoice) {
+    speech.voice = englishVoice;
   }
 
-  const utterance =
-    new SpeechSynthesisUtterance(
-      text
-    );
-
-  utterance.lang = "en-US";
-  utterance.rate = 1;
-  utterance.pitch = 1;
-
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(
-    utterance
-  );
+  synthesis.speak(speech);
 }
 
-export function startListening(
-  onResult,
-  onError
-) {
+export function stopSpeaking() {
+  if ("speechSynthesis" in window) {
+    synthesis.cancel();
+  }
+}
+
+export function startListening(onResult) {
   const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
 
   if (!SpeechRecognition) {
-    if (onError) {
-      onError(
-        "Speech recognition is not supported on this device."
-      );
-    }
+    alert("Speech recognition is not supported in this browser.");
     return null;
   }
 
-  const recognition =
-    new SpeechRecognition();
+  const recognition = new SpeechRecognition();
 
   recognition.lang = "en-US";
   recognition.continuous = false;
-  recognition.interimResults =
-    false;
-  recognition.maxAlternatives =
-    1;
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
 
-  recognition.onresult =
-    (event) => {
-      const text =
-        event.results[0][0]
-          .transcript;
+  recognition.onresult = (event) => {
+    const transcript =
+      event.results[0][0].transcript;
 
-      if (onResult) {
-        onResult(text);
-      }
-    };
+    if (onResult) {
+      onResult(transcript);
+    }
+  };
 
-  recognition.onerror =
-    (event) => {
-      if (onError) {
-        onError(
-          event.error
-        );
-      }
-    };
+  recognition.onerror = (event) => {
+    console.error("Voice Error:", event.error);
+  };
 
   recognition.start();
 
   return recognition;
-}
-
-export function stopListening(
-  recognition
-) {
-  if (recognition) {
-    recognition.stop();
-  }
 }

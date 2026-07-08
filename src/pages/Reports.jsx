@@ -1,3 +1,17 @@
+/*
+==========================================================
+
+Farm Manager Pro
+
+Reports
+
+Version : 2.4.0
+
+Developer : Francis Junior
+
+==========================================================
+*/
+
 function Reports() {
   const expenses =
     JSON.parse(
@@ -13,19 +27,54 @@ function Reports() {
       )
     ) || [];
 
+  const harvests =
+    JSON.parse(
+      localStorage.getItem(
+        "harvests"
+      )
+    ) || [];
+
+  const farms =
+    JSON.parse(
+      localStorage.getItem(
+        "farm-manager-pro-farms"
+      )
+    ) || [];
+
+  const inventory =
+    JSON.parse(
+      localStorage.getItem(
+        "inventory"
+      )
+    ) || [];
+
   const totalExpenses =
     expenses.reduce(
-      (total, expense) =>
-        total +
-        Number(expense.amount),
+      (sum, item) =>
+        sum +
+        Number(
+          item.amount || 0
+        ),
       0
     );
 
   const totalIncome =
     incomes.reduce(
-      (total, income) =>
-        total +
-        Number(income.amount),
+      (sum, item) =>
+        sum +
+        Number(
+          item.amount || 0
+        ),
+      0
+    );
+
+  const totalHarvest =
+    harvests.reduce(
+      (sum, item) =>
+        sum +
+        Number(
+          item.income || 0
+        ),
       0
     );
 
@@ -35,48 +84,67 @@ function Reports() {
 
   return (
     <main className="dashboard">
+
       <div className="farm-card">
         <h2>
-          💰 Total Income
+          📋 Farm Report Summary
         </h2>
-
-        <h1>
-          KES{" "}
-          {totalIncome.toLocaleString()}
-        </h1>
       </div>
 
-      <div
-        className="farm-card"
-        style={{
-          marginTop: 20,
-        }}
-      >
-        <h2>
-          💸 Total Expenses
-        </h2>
+      <div className="tasks-card">
+        <p>
+          🚜 Farms:
+          <strong>
+            {" "}
+            {farms.length}
+          </strong>
+        </p>
 
-        <h1>
-          KES{" "}
-          {totalExpenses.toLocaleString()}
-        </h1>
+        <p>
+          📦 Inventory Items:
+          <strong>
+            {" "}
+            {inventory.length}
+          </strong>
+        </p>
+
+        <p>
+          🥬 Harvest Income:
+          <strong>
+            {" "}
+            KES{" "}
+            {totalHarvest.toLocaleString()}
+          </strong>
+        </p>
+
+        <p>
+          💰 Total Income:
+          <strong>
+            {" "}
+            KES{" "}
+            {totalIncome.toLocaleString()}
+          </strong>
+        </p>
+
+        <p>
+          💸 Total Expenses:
+          <strong>
+            {" "}
+            KES{" "}
+            {totalExpenses.toLocaleString()}
+          </strong>
+        </p>
+
+        <p>
+          📈 Net Profit:
+          <strong>
+            {" "}
+            KES{" "}
+            {profit.toLocaleString()}
+          </strong>
+        </p>
       </div>
 
-      <div
-        className="farm-card"
-        style={{
-          marginTop: 20,
-        }}
-      >
-        <h2>
-          📈 Net Profit
-        </h2>
-
-        <h1>
-          KES{" "}
-          {profit.toLocaleString()}
-        </h1>
-      </div>
     </main>
   );
 }

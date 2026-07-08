@@ -1,3 +1,17 @@
+/*
+==========================================================
+
+Farm Manager Pro
+
+Cloud Backup V2
+
+Version : 2.4.0
+
+Developer : Francis Junior
+
+==========================================================
+*/
+
 import { db } from "../firebase/firebase";
 
 import {
@@ -25,17 +39,16 @@ export async function createBackup(
       "backups"
     );
 
-    const docRef = await addDoc(
-      backupsRef,
-      {
+    const docRef =
+      await addDoc(backupsRef, {
         name:
           backupName ||
-          `Backup - ${new Date().toLocaleString()}`,
+          `Backup ${new Date().toLocaleString()}`,
         data,
+        version: "2.4.0",
         createdAt:
           serverTimestamp(),
-      }
-    );
+      });
 
     localStorage.setItem(
       "lastBackup",
@@ -107,16 +120,16 @@ export async function loadBackup(
   backupId
 ) {
   try {
-    const docRef = doc(
-      db,
-      "users",
-      userId,
-      "backups",
-      backupId
-    );
-
     const snapshot =
-      await getDoc(docRef);
+      await getDoc(
+        doc(
+          db,
+          "users",
+          userId,
+          "backups",
+          backupId
+        )
+      );
 
     if (!snapshot.exists()) {
       return {

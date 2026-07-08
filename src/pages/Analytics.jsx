@@ -1,38 +1,87 @@
+/*
+==========================================================
+
+Farm Manager Pro
+
+Analytics Dashboard
+
+Version : 2.4.0
+
+Developer : Francis Junior
+
+==========================================================
+*/
+
 function Analytics() {
   const expenses =
     JSON.parse(
-      localStorage.getItem("expenses")
+      localStorage.getItem(
+        "expenses"
+      )
     ) || [];
 
   const incomes =
     JSON.parse(
-      localStorage.getItem("incomes")
+      localStorage.getItem(
+        "incomes"
+      )
     ) || [];
 
   const harvests =
     JSON.parse(
-      localStorage.getItem("harvests")
+      localStorage.getItem(
+        "harvests"
+      )
+    ) || [];
+
+  const farms =
+    JSON.parse(
+      localStorage.getItem(
+        "farm-manager-pro-farms"
+      )
+    ) || [];
+
+  const livestock =
+    JSON.parse(
+      localStorage.getItem(
+        "livestock"
+      )
+    ) || [];
+
+  const inventory =
+    JSON.parse(
+      localStorage.getItem(
+        "inventory"
+      )
     ) || [];
 
   const totalExpenses =
     expenses.reduce(
-      (total, expense) =>
-        total + Number(expense.amount),
+      (sum, item) =>
+        sum +
+        Number(
+          item.amount || 0
+        ),
       0
     );
 
   const totalIncome =
     incomes.reduce(
-      (total, income) =>
-        total + Number(income.amount),
+      (sum, item) =>
+        sum +
+        Number(
+          item.amount || 0
+        ),
       0
     );
 
   const totalHarvest =
     harvests.reduce(
-      (total, harvest) =>
-        total +
-        Number(harvest.income),
+      (sum, item) =>
+        sum +
+        Number(
+          item.income || 0
+        ),
       0
     );
 
@@ -42,33 +91,101 @@ function Analytics() {
 
   return (
     <main className="dashboard">
+
       <div className="farm-card">
-        <h2>📊 Analytics</h2>
 
-        <p style={{ marginTop: 20 }}>
-          💰 Income:
-          {" "}
-          KES {totalIncome.toLocaleString()}
-        </p>
+        <h2>
+          📊 Farm Analytics
+        </h2>
 
-        <p style={{ marginTop: 15 }}>
-          💸 Expenses:
-          {" "}
-          KES {totalExpenses.toLocaleString()}
-        </p>
-
-        <p style={{ marginTop: 15 }}>
-          📈 Profit:
-          {" "}
-          KES {profit.toLocaleString()}
-        </p>
-
-        <p style={{ marginTop: 15 }}>
-          🥬 Harvest Income:
-          {" "}
-          KES {totalHarvest.toLocaleString()}
-        </p>
       </div>
+
+      <section className="dashboard-grid">
+
+        <div className="card">
+          <div className="card-icon">
+            💰
+          </div>
+
+          <h3>Income</h3>
+
+          <h2>
+            KES{" "}
+            {totalIncome.toLocaleString()}
+          </h2>
+        </div>
+
+        <div className="card">
+          <div className="card-icon">
+            💸
+          </div>
+
+          <h3>Expenses</h3>
+
+          <h2>
+            KES{" "}
+            {totalExpenses.toLocaleString()}
+          </h2>
+        </div>
+
+        <div className="card">
+          <div className="card-icon">
+            📈
+          </div>
+
+          <h3>Profit</h3>
+
+          <h2>
+            KES{" "}
+            {profit.toLocaleString()}
+          </h2>
+        </div>
+
+        <div className="card">
+          <div className="card-icon">
+            🥬
+          </div>
+
+          <h3>Harvest</h3>
+
+          <h2>
+            KES{" "}
+            {totalHarvest.toLocaleString()}
+          </h2>
+        </div>
+
+        <div className="card">
+          <div className="card-icon">
+            🚜
+          </div>
+
+          <h3>Farms</h3>
+
+          <h2>{farms.length}</h2>
+        </div>
+
+        <div className="card">
+          <div className="card-icon">
+            🐔
+          </div>
+
+          <h3>Livestock</h3>
+
+          <h2>{livestock.length}</h2>
+        </div>
+
+        <div className="card">
+          <div className="card-icon">
+            📦
+          </div>
+
+          <h3>Inventory</h3>
+
+          <h2>{inventory.length}</h2>
+        </div>
+
+      </section>
+
     </main>
   );
 }

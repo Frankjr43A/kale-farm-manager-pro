@@ -1,237 +1,205 @@
+/*
+==========================================================
+
+Farm Manager Pro
+
+Production AI Assistant
+
+Version : 3.0.0
+
+Developer : Francis Junior
+
+==========================================================
+*/
+
 import { useState } from "react";
 
-import {
-  getFarmAdvice,
-} from "../services/smartFarmAI";
-
+import { getFarmAdvice } from "../services/smartFarmAI";
 import {
   askOnlineFarmAI,
+  clearConversation,
 } from "../services/onlineFarmAI";
 
+import { speak } from "../services/voiceAssistant";
 import VoiceControls from "../components/VoiceControls";
 
-import {
-  speak,
-} from "../services/voiceAssistant";
-
 function AIAssistant() {
-  const [question, setQuestion] =
-    useState("");
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [thinking, setThinking] = useState(false);
 
-  const [answer, setAnswer] =
-    useState("");
-
-  const [thinking, setThinking] =
-    useState(false);
+  const suggestions = [
+    "Why are my tomato leaves curling?",
+    "My layers have green diarrhoea.",
+    "Best fertilizer for kale?",
+    "How often should I irrigate tomatoes?",
+    "How can I increase egg production?",
+    "How do I control aphids?"
+  ];
 
   async function askAI(e) {
-    if (e) {
-      e.preventDefault();
-    }
+    if (e) e.preventDefault();
 
-    if (!question.trim()) {
-      return;
-    }
+    if (!question.trim()) return;
 
     setThinking(true);
 
     try {
-      let response;
-
-      // Online AI
       if (navigator.onLine) {
-        response =
-          await askOnlineFarmAI(
-            question
-          );
+        const online = await askOnlineFarmAI(question);
 
-        if (
-          response.success
-        ) {
-          setAnswer(
-            response.answer
-          );
+        if (online.success) {
+          setAnswer(online.answer);
+          setQuestion("");
 
-          speak(
-            response.answer
-          );
-
-          setThinking(
-            false
-          );
+          // Voice remains optional.
+          // Uncomment the next line if you want auto voice.
+          // speak(online.answer);
 
           return;
         }
       }
 
-      // Offline AI
-      const text =
-        question.toLowerCase();
+      const text = question.toLowerCase();
 
-      let category =
-        "Tomatoes";
+      let crop = "Tomatoes";
+
+      if (text.includes("kale")) crop = "Kale";
 
       if (
-        text.includes(
-          "chicken"
-        ) ||
-        text.includes(
-          "bird"
-        ) ||
-        text.includes(
-          "layer"
-        ) ||
-        text.includes(
-          "poultry"
-        ) ||
-        text.includes(
-          "egg"
-        )
+        text.includes("layer") ||
+        text.includes("chicken") ||
+        text.includes("egg") ||
+        text.includes("poultry")
       ) {
-        category =
-          "Layers";
-      } else if (
-        text.includes(
-          "kale"
-        )
-      ) {
-        category =
-          "Kale";
+        crop = "Layers";
       }
 
-      response =
-        getFarmAdvice(
-          category,
-          question
-        );
+      const result = getFarmAdvice(crop, question);
 
-      const offlineAnswer =
-        response.success
-          ? `Possible ${response.disease}.
+      const response = result.success
+        ? `Diagnosis
 
-Treatment:
-${response.treatment}
+${result.disease}
 
-Prevention:
-${response.prevention}`
-          : response.treatment;
+Treatment
 
-      setAnswer(
-        offlineAnswer
-      );
+${result.treatment}
 
-      speak(
-        offlineAnswer
-      );
+Prevention
+
+${result.prevention}`
+        : result.treatment;
+
+      setAnswer(response);
+
+    } catch (error) {
+      setAnswer(error.message);
     } finally {
       setThinking(false);
     }
   }
 
-  function handleTranscript(
-    text
-  ) {
+  function useSuggestion(text) {
     setQuestion(text);
+  }
 
-    setTimeout(() => {
-      askAI();
-    }, 500);
+  function handleTranscript(text) {
+    setQuestion(text);
   }
 
   return (
     <main className="dashboard">
-      <div className="farm-form">
-        <h2>
-          🤖 Smart Farm AI
-        </h2>
+
+      <div className="farm-card">
+
+        <h2>🤖 Farm Manager Pro AI</h2>
 
         <p>
-          Ask me anything
-          about:
+          Online Gemini AI with offline farming knowledge.
         </p>
 
-        <ul>
-          <li>
-            🥬 Kale
-          </li>
+      </div>
 
-          <li>
-            🍅 Tomatoes
-          </li>
+      <div className="farm-form">
 
-          <li>
-            🐔 Poultry
-          </li>
-
-          <li>
-            🌤 Farming
-          </li>
-        </ul>
-
-        <form
-          onSubmit={
-            askAI
-          }
-        >
-          <textarea
-            placeholder="Example: My layers have green diarrhea."
-            value={
-              question
-            }
-            onChange={(
-              e
-            ) =>
-              setQuestion(
-                e.target
-                  .value
-              )
-            }
-            rows="5"
-          />
-
-          <button
-            type="submit"
-            disabled={
-              thinking
-            }
-          >
-            {thinking
-              ? "🤖 Thinking..."
-              : "🤖 Ask Farm AI"}
-          </button>
-        </form>
-
-        <VoiceControls
-          onTranscript={
-            handleTranscript
-          }
-          answer={answer}
+        <textarea
+          rows="5"
+          placeholder="Ask anything about farming..."
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
         />
 
-        {answer && (
-          <div
-            className="tasks-card"
+        <button
+          onClick={askAI}
+          disabled={thinking}
+        >
+          {thinking ? "🤖 Thinking..." : "🤖 Ask AI"}
+        </button>
+
+        <button
+          onClick={() => {
+            clearConversation();
+            setAnswer("");
+            setQuestion("");
+          }}
+          style={{ marginTop: 10 }}
+        >
+          🗑 New Chat
+        </button>
+
+      </div>
+
+      <div className="tasks-card">
+
+        <h3>💡 Suggested Questions</h3>
+
+        {suggestions.map((item) => (
+          <button
+            key={item}
             style={{
-              marginTop:
-                "20px",
+              width: "100%",
+              marginBottom: 10
+            }}
+            onClick={() => useSuggestion(item)}
+          >
+            {item}
+          </button>
+        ))}
+
+      </div>
+
+      <VoiceControls
+        onTranscript={handleTranscript}
+        answer={answer}
+      />
+
+      {answer && (
+        <div
+          className="farm-card"
+          style={{ marginTop: 20 }}
+        >
+          <h3>🌿 AI Response</h3>
+
+          <div
+            style={{
+              whiteSpace: "pre-wrap",
+              lineHeight: 1.7
             }}
           >
-            <h3>
-              🌿 Farm AI
-              Response
-            </h3>
-
-            <p
-              style={{
-                whiteSpace:
-                  "pre-line",
-              }}
-            >
-              {answer}
-            </p>
+            {answer}
           </div>
-        )}
-      </div>
+
+          <button
+            style={{ marginTop: 15 }}
+            onClick={() => speak(answer)}
+          >
+            🔊 Read Answer
+          </button>
+
+        </div>
+      )}
+
     </main>
   );
 }

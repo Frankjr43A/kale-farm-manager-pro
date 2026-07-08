@@ -20,30 +20,58 @@ function InventoryReport() {
     let y = 20;
 
     doc.setFontSize(20);
-
     doc.text(
       "Farm Manager Pro",
       20,
       y
     );
 
-    y += 15;
+    y += 10;
 
     doc.setFontSize(16);
-
     doc.text(
       "Inventory Report",
       20,
       y
     );
 
-    y += 20;
+    y += 10;
+
+    doc.setFontSize(10);
+    doc.text(
+      `Generated: ${new Date().toLocaleString()}`,
+      20,
+      y
+    );
+
+    y += 15;
 
     inventory.forEach(
-      (item) => {
+      (item, index) => {
+        if (y > 270) {
+          doc.addPage();
+          y = 20;
+        }
+
         doc.text(
-          `${item.category} - ${item.name} - Qty: ${item.quantity}`,
+          `${index + 1}. ${item.category}`,
           20,
+          y
+        );
+
+        y += 7;
+
+        doc.text(
+          `Item: ${item.name}`,
+          25,
+          y
+        );
+
+        y += 7;
+
+        doc.text(
+          `Quantity: ${item.quantity}`,
+          25,
           y
         );
 
@@ -51,7 +79,12 @@ function InventoryReport() {
       }
     );
 
-    y += 10;
+    if (y > 250) {
+      doc.addPage();
+      y = 20;
+    }
+
+    doc.setFontSize(12);
 
     doc.text(
       `Total Items: ${inventory.length}`,
@@ -59,7 +92,7 @@ function InventoryReport() {
       y
     );
 
-    y += 10;
+    y += 8;
 
     doc.text(
       `Low Stock Items: ${lowStock.length}`,
@@ -74,14 +107,15 @@ function InventoryReport() {
 
   return (
     <main className="dashboard">
+
       <div className="farm-card">
+
         <h2>
           📄 Inventory PDF Report
         </h2>
 
         <p>
-          Download your
-          inventory report as PDF.
+          Generate a printable inventory report.
         </p>
 
         <button
@@ -89,9 +123,11 @@ function InventoryReport() {
             downloadReport
           }
         >
-          📄 Download Report
+          📄 Download PDF
         </button>
+
       </div>
+
     </main>
   );
 }

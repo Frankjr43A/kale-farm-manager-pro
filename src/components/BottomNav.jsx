@@ -1,67 +1,76 @@
+/*
+==========================================================
+
+Farm Manager Pro
+
+Component : Bottom Navigation
+
+Version : 2.2.0
+
+Developer : Francis Junior
+
+==========================================================
+*/
+
 import { NavLink } from "react-router-dom";
 
 function BottomNav() {
+  const navItems = [
+    {
+      path: "/dashboard",
+      icon: "🏠",
+      label: "Home",
+    },
+    {
+      path: "/farms",
+      icon: "🚜",
+      label: "Farm",
+    },
+    {
+      path: "/market-dashboard",
+      icon: "📈",
+      label: "Market",
+    },
+    {
+      path: "/finance",
+      icon: "💰",
+      label: "Finance",
+    },
+    {
+      path: "/ai-assistant",
+      icon: "🤖",
+      label: "AI",
+    },
+    {
+      path: "/menu",
+      icon: "☰",
+      label: "Menu",
+    },
+  ];
+
   return (
     <nav className="bottom-nav">
-      <NavLink
-        to="/dashboard"
-        className={({ isActive }) =>
-          isActive
-            ? "nav-item active"
-            : "nav-item"
-        }
-      >
-        <span>🏠</span>
-        <small>Home</small>
-      </NavLink>
+      {navItems.map((item) => (
+        <NavLink
+          key={item.path}
+          to={item.path}
+          className={({ isActive }) =>
+            isActive
+              ? "nav-item active"
+              : "nav-item"
+          }
+        >
+          <span
+            style={{
+              fontSize: "1.4rem",
+            }}
+          >
+            {item.icon}
+          </span>
 
-      <NavLink
-        to="/farms"
-        className={({ isActive }) =>
-          isActive
-            ? "nav-item active"
-            : "nav-item"
-        }
-      >
-        <span>🚜</span>
-        <small>Farms</small>
-      </NavLink>
-
-      <NavLink
-        to="/finance"
-        className={({ isActive }) =>
-          isActive
-            ? "nav-item active"
-            : "nav-item"
-        }
-      >
-        <span>💸</span>
-        <small>Finance</small>
-      </NavLink>
-
-      <NavLink
-        to="/reports"
-        className={({ isActive }) =>
-          isActive
-            ? "nav-item active"
-            : "nav-item"
-        }
-      >
-        <span>📊</span>
-        <small>Reports</small>
-      </NavLink>
-
-      <NavLink
-        to="/menu"
-        className={({ isActive }) =>
-          isActive
-            ? "nav-item active"
-            : "nav-item"
-        }
-      >
-        <span>☰</span>
-        <small>Menu</small>
-      </NavLink>
+          <small>{item.label}</small>
+        </NavLink>
+      ))}
     </nav>
   );
 }

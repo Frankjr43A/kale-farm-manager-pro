@@ -1,17 +1,46 @@
+/*
+==========================================================
+
+Farm Manager Pro
+
+Professional Menu
+
+Version : 2.3.0
+
+Developer : Francis Junior
+
+==========================================================
+*/
+
 import { NavLink } from "react-router-dom";
 
 function Menu() {
   return (
     <main className="dashboard">
+
       <div className="farm-card">
-        <h2>
-          ☰ Farm Manager Menu
-        </h2>
+
+        <h2>☰ Farm Manager Pro</h2>
+
+        <p>Professional Farm Management System</p>
+
+      </div>
+
+      <div className="farm-card">
+
+        <h3>🏠 Dashboard</h3>
 
         <div className="menu-links">
-          <NavLink to="/dashboard">
-            🏠 Dashboard
-          </NavLink>
+          <NavLink to="/dashboard">📊 Dashboard</NavLink>
+        </div>
+
+      </div>
+
+      <div className="farm-card">
+
+        <h3>🚜 Farm Management</h3>
+
+        <div className="menu-links">
 
           <NavLink to="/farms">
             🚜 Farms
@@ -26,23 +55,29 @@ function Menu() {
           </NavLink>
 
           <NavLink to="/livestock">
-            🐔 Livestock Manager
-          </NavLink>
-
-          <NavLink to="/livestock-reports">
-            📊 Livestock Reports
+            🐔 Livestock
           </NavLink>
 
           <NavLink to="/vaccinations">
             💉 Vaccinations
           </NavLink>
 
-          <NavLink to="/disease-scanner">
-            📷 Disease Scanner
+          <NavLink to="/crop-calendar">
+            📅 Crop Calendar
           </NavLink>
 
-          <NavLink to="/disease-history">
-            📋 Disease History
+        </div>
+
+      </div>
+
+      <div className="farm-card">
+
+        <h3>📈 Market Intelligence</h3>
+
+        <div className="menu-links">
+
+          <NavLink to="/market-dashboard">
+            📈 Market Dashboard
           </NavLink>
 
           <NavLink to="/market-prices">
@@ -50,12 +85,56 @@ function Menu() {
           </NavLink>
 
           <NavLink to="/market-reports">
-            👥 Community Market Reports
+            👥 Community Reports
           </NavLink>
 
           <NavLink to="/market-analytics">
             📊 Market Analytics
           </NavLink>
+
+        </div>
+
+      </div>
+
+      <div className="farm-card">
+
+        <h3>🤖 AI Experts</h3>
+
+        <div className="menu-links">
+
+          <NavLink to="/ai-assistant">
+            🤖 Smart Farming AI
+          </NavLink>
+
+          <NavLink to="/poultry-expert">
+            🐔 Poultry Expert AI
+          </NavLink>
+
+          <NavLink to="/tomato-expert">
+            🍅 Tomato Expert AI
+          </NavLink>
+
+          <NavLink to="/kale-expert">
+            🥬 Kale Expert AI
+          </NavLink>
+
+          <NavLink to="/disease-scanner">
+            📷 Disease Scanner AI
+          </NavLink>
+
+          <NavLink to="/disease-history">
+            📋 Disease History
+          </NavLink>
+
+        </div>
+
+      </div>
+
+      <div className="farm-card">
+
+        <h3>💰 Finance</h3>
+
+        <div className="menu-links">
 
           <NavLink to="/finance">
             💸 Finance
@@ -69,22 +148,6 @@ function Menu() {
             🥬 Harvests
           </NavLink>
 
-          <NavLink to="/activities">
-            📅 Activities
-          </NavLink>
-
-          <NavLink to="/crop-calendar">
-            🗓 Crop Calendar
-          </NavLink>
-
-          <NavLink to="/weather">
-            🌤 Weather
-          </NavLink>
-
-          <NavLink to="/analytics">
-            📊 Analytics
-          </NavLink>
-
           <NavLink to="/reports">
             📄 Reports
           </NavLink>
@@ -92,6 +155,16 @@ function Menu() {
           <NavLink to="/pdf-reports">
             📄 PDF Reports
           </NavLink>
+
+        </div>
+
+      </div>
+
+      <div className="farm-card">
+
+        <h3>📦 Inventory</h3>
+
+        <div className="menu-links">
 
           <NavLink to="/inventory">
             📦 Inventory
@@ -105,6 +178,24 @@ function Menu() {
             📊 Inventory Analytics
           </NavLink>
 
+        </div>
+
+      </div>
+
+      <div className="farm-card">
+
+        <h3>⚙️ System</h3>
+
+        <div className="menu-links">
+
+          <NavLink to="/weather">
+            🌤 Weather
+          </NavLink>
+
+          <NavLink to="/notifications">
+            🔔 Notifications
+          </NavLink>
+
           <NavLink to="/backup">
             ☁️ Backup & Restore
           </NavLink>
@@ -112,8 +203,11 @@ function Menu() {
           <NavLink to="/settings">
             ⚙️ Settings
           </NavLink>
+
         </div>
+
       </div>
+
     </main>
   );
 }

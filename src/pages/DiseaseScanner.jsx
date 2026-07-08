@@ -1,26 +1,31 @@
+/*
+==========================================================
+
+Farm Manager Pro
+
+Disease Scanner AI
+
+Version : 2.3.0
+
+Developer : Francis Junior
+
+==========================================================
+*/
+
 import { useState } from "react";
 
 function DiseaseScanner() {
-  const [crop, setCrop] =
-    useState("");
-
-  const [symptoms, setSymptoms] =
-    useState("");
-
-  const [photo, setPhoto] =
-    useState("");
-
-  const [result, setResult] =
-    useState(null);
+  const [crop, setCrop] = useState("");
+  const [symptoms, setSymptoms] = useState("");
+  const [photo, setPhoto] = useState("");
+  const [result, setResult] = useState(null);
 
   function handlePhoto(e) {
-    const file =
-      e.target.files[0];
+    const file = e.target.files[0];
 
     if (!file) return;
 
-    const reader =
-      new FileReader();
+    const reader = new FileReader();
 
     reader.onload = () => {
       setPhoto(reader.result);
@@ -30,95 +35,77 @@ function DiseaseScanner() {
   }
 
   function scanDisease() {
-    const text =
-      symptoms.toLowerCase();
+    if (!crop || !symptoms.trim()) {
+      alert("Select a crop and enter symptoms.");
+      return;
+    }
 
-    let disease =
-      "Unknown Disease";
+    const text = symptoms.toLowerCase();
 
+    let disease = "Unknown Disease";
+    let confidence = "55%";
     let recommendation =
-      "Consult an agricultural extension officer.";
+      "Consult your agricultural extension officer.";
 
-    if (
-      crop === "Tomatoes"
-    ) {
-      if (
-        text.includes(
-          "yellow"
-        ) ||
-        text.includes(
-          "brown spots"
-        )
-      ) {
-        disease =
-          "Early Blight";
+    switch (crop) {
+      case "Tomatoes":
+        if (
+          text.includes("yellow") ||
+          text.includes("brown")
+        ) {
+          disease = "Early Blight";
+          confidence = "92%";
+          recommendation =
+            "Spray Mancozeb every 7 days and remove infected leaves.";
+        } else if (
+          text.includes("wilting")
+        ) {
+          disease = "Bacterial Wilt";
+          confidence = "90%";
+          recommendation =
+            "Remove infected plants and improve drainage.";
+        }
+        break;
 
-        recommendation =
-          "Spray Mancozeb every 7 days and remove infected leaves.";
-      } else if (
-        text.includes(
-          "wilting"
-        )
-      ) {
-        disease =
-          "Bacterial Wilt";
+      case "Kale":
+        if (
+          text.includes("white powder")
+        ) {
+          disease = "Powdery Mildew";
+          confidence = "91%";
+          recommendation =
+            "Apply sulphur fungicide and improve airflow.";
+        } else if (
+          text.includes("yellow")
+        ) {
+          disease = "Downy Mildew";
+          confidence = "88%";
+          recommendation =
+            "Apply copper fungicide and avoid overhead irrigation.";
+        }
+        break;
 
-        recommendation =
-          "Remove infected plants and improve drainage.";
-      }
-    }
+      case "Layers":
+        if (
+          text.includes("bloody") ||
+          text.includes("diarrhea")
+        ) {
+          disease = "Coccidiosis";
+          confidence = "95%";
+          recommendation =
+            "Treat immediately with Amprolium and keep litter dry.";
+        } else if (
+          text.includes("twisted neck")
+        ) {
+          disease = "Newcastle Disease";
+          confidence = "93%";
+          recommendation =
+            "Isolate sick birds and vaccinate healthy birds immediately.";
+        }
+        break;
 
-    if (crop === "Kale") {
-      if (
-        text.includes(
-          "white powder"
-        )
-      ) {
-        disease =
-          "Powdery Mildew";
-
-        recommendation =
-          "Apply sulphur fungicide and improve air circulation.";
-      } else if (
-        text.includes(
-          "yellow"
-        )
-      ) {
-        disease =
-          "Downy Mildew";
-
-        recommendation =
-          "Spray copper fungicide and avoid overhead irrigation.";
-      }
-    }
-
-    if (
-      crop === "Layers"
-    ) {
-      if (
-        text.includes(
-          "bloody"
-        ) ||
-        text.includes(
-          "diarrhea"
-        )
-      ) {
-        disease =
-          "Coccidiosis";
-
-        recommendation =
-          "Treat with Amprolium and keep litter dry.";
-      } else if (
-        text.includes(
-          "twisted neck"
-        )
-      ) {
-        disease =
-          "Newcastle Disease";
-
-        recommendation =
-          "Isolate affected birds and vaccinate healthy birds immediately.";
-      }
+      default:
+        break;
     }
 
     const diagnosis = {
@@ -126,9 +113,9 @@ function DiseaseScanner() {
       crop,
       symptoms,
       disease,
+      confidence,
       recommendation,
-      date:
-        new Date().toLocaleString(),
+      date: new Date().toLocaleString(),
       photo,
     };
 
@@ -139,35 +126,27 @@ function DiseaseScanner() {
         )
       ) || [];
 
-    history.unshift(
-      diagnosis
-    );
+    history.unshift(diagnosis);
 
     localStorage.setItem(
       "disease-history",
-      JSON.stringify(
-        history
-      )
+      JSON.stringify(history)
     );
 
-    setResult(
-      diagnosis
-    );
+    setResult(diagnosis);
   }
 
   return (
     <main className="dashboard">
+
       <div className="farm-card">
-        <h2>
-          📷 Disease Scanner
-        </h2>
+
+        <h2>📷 Disease Scanner AI</h2>
 
         <input
           type="file"
           accept="image/*"
-          onChange={
-            handlePhoto
-          }
+          onChange={handlePhoto}
         />
 
         {photo && (
@@ -176,10 +155,8 @@ function DiseaseScanner() {
             alt="Crop"
             style={{
               width: "100%",
-              marginTop:
-                "20px",
-              borderRadius:
-                "15px",
+              marginTop: 20,
+              borderRadius: 15,
             }}
           />
         )}
@@ -187,13 +164,10 @@ function DiseaseScanner() {
         <select
           value={crop}
           onChange={(e) =>
-            setCrop(
-              e.target.value
-            )
+            setCrop(e.target.value)
           }
           style={{
-            marginTop:
-              "20px",
+            marginTop: 20,
           }}
         >
           <option value="">
@@ -211,70 +185,81 @@ function DiseaseScanner() {
           <option>
             Layers
           </option>
+
         </select>
 
         <textarea
-          placeholder="Describe symptoms..."
+          rows="5"
+          placeholder="Describe the symptoms..."
           value={symptoms}
           onChange={(e) =>
-            setSymptoms(
-              e.target.value
-            )
+            setSymptoms(e.target.value)
           }
           style={{
-            marginTop:
-              "20px",
+            marginTop: 20,
           }}
         />
 
         <button
-          onClick={
-            scanDisease
-          }
+          onClick={scanDisease}
         >
-          🔍 Scan Disease
+          🤖 Scan with AI
         </button>
+
       </div>
 
       {result && (
-        <div className="tasks-card">
-          <h3>
-            Diagnosis Result
-          </h3>
+
+        <div className="farm-card">
+
+          <h2>
+            ✅ Diagnosis Result
+          </h2>
 
           <p>
             🌱 Crop:
-            {" "}
-            {
-              result.crop
-            }
+            <strong>
+              {" "}
+              {result.crop}
+            </strong>
           </p>
 
           <p>
             🦠 Disease:
-            {" "}
-            {
-              result.disease
-            }
+            <strong>
+              {" "}
+              {result.disease}
+            </strong>
           </p>
 
           <p>
-            💡 Recommendation:
-            {" "}
-            {
-              result.recommendation
-            }
+            🎯 Confidence:
+            <strong>
+              {" "}
+              {result.confidence}
+            </strong>
           </p>
 
           <p>
-            🕒
-            {" "}
-            {
-              result.date
-            }
+            💊 Recommendation:
           </p>
+
+          <p>
+            {result.recommendation}
+          </p>
+
+          <p
+            style={{
+              marginTop: 15,
+            }}
+          >
+            🕒 {result.date}
+          </p>
+
         </div>
+
       )}
+
     </main>
   );
 }

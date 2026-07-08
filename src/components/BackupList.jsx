@@ -1,3 +1,17 @@
+/*
+==========================================================
+
+Farm Manager Pro
+
+Cloud Backup List
+
+Version : 2.4.0
+
+Developer : Francis Junior
+
+==========================================================
+*/
+
 function BackupList({
   backups,
   onRestore,
@@ -8,91 +22,103 @@ function BackupList({
     backups.length === 0
   ) {
     return (
-      <div
-        className="farm-card"
-        style={{
-          marginTop: "20px",
-        }}
-      >
+      <div className="farm-card">
+
         <h3>
-          ☁️ My Cloud
-          Backups
+          ☁️ My Cloud Backups
         </h3>
 
         <p>
-          No cloud backups
-          found.
+          No cloud backups available.
         </p>
+
       </div>
     );
   }
 
   return (
-    <div
-      className="farm-card"
-      style={{
-        marginTop: "20px",
-      }}
-    >
+    <div className="farm-card">
+
       <h3>
-        ☁️ My Cloud
-        Backups
+        ☁️ My Cloud Backups
       </h3>
 
+      <p>
+        Total Backups:
+        <strong>
+          {" "}
+          {backups.length}
+        </strong>
+      </p>
+
+      <br />
+
       {backups.map(
-        (backup) => (
+        (backup, index) => (
+
           <div
             key={backup.id}
+            className="tasks-card"
             style={{
-              border:
-                "1px solid var(--border-color, #ddd)",
-              borderRadius:
-                "12px",
-              padding:
-                "16px",
-              marginBottom:
-                "16px",
+              marginBottom: "18px",
             }}
           >
-            <h4>
-              🌾{" "}
-              {backup.name}
-            </h4>
+
+            <h3>
+              📦 Backup {index + 1}
+            </h3>
 
             <p>
-              {backup
-                .createdAt
-                ?.toDate
+              <strong>Name:</strong>{" "}
+              {backup.name}
+            </p>
+
+            <p>
+              <strong>Created:</strong>{" "}
+              {backup.createdAt?.toDate
                 ? backup.createdAt
                     .toDate()
                     .toLocaleString()
-                : "Date unavailable"}
+                : "Unknown"}
             </p>
 
-            <button
-              onClick={() =>
-                onRestore(
-                  backup.id
-                )
-              }
+            <div
+              style={{
+                display: "flex",
+                gap: "10px",
+                flexWrap: "wrap",
+                marginTop: "15px",
+              }}
             >
-              ☁️ Restore
-            </button>
 
-            {" "}
+              <button
+                onClick={() =>
+                  onRestore(
+                    backup.id
+                  )
+                }
+              >
+                ☁️ Restore
+              </button>
 
-            <button
-              onClick={() =>
-                onDelete(
-                  backup.id
-                )
-              }
-            >
-              🗑 Delete
-            </button>
+              <button
+                className="delete-btn"
+                onClick={() =>
+                  onDelete(
+                    backup.id
+                  )
+                }
+              >
+                🗑 Delete
+              </button>
+
+            </div>
+
           </div>
+
         )
       )}
+
     </div>
   );
 }

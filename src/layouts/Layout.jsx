@@ -1,13 +1,30 @@
+/*
+==========================================================
+
+Farm Manager Pro
+
+Layout
+
+Version : 2.2.0
+
+Developer : Francis Junior
+
+==========================================================
+*/
+
+import { Outlet } from "react-router-dom";
+
 import Header from "../components/Header";
 import BottomNav from "../components/BottomNav";
-import { Outlet } from "react-router-dom";
 
 function Layout() {
   return (
-    <div className="app">
+    <div className="app-layout">
       <Header />
 
-      <Outlet />
+      <main className="page-content">
+        <Outlet />
+      </main>
 
       <BottomNav />
     </div>

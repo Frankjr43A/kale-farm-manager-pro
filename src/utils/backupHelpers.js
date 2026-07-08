@@ -1,3 +1,17 @@
+/*
+==========================================================
+
+Farm Manager Pro
+
+Backup Helpers
+
+Version : 2.4.0
+
+Developer : Francis Junior
+
+==========================================================
+*/
+
 export function getBackupData() {
   return {
     farms:
@@ -9,44 +23,37 @@ export function getBackupData() {
 
     fields:
       JSON.parse(
-        localStorage.getItem(
-          "fields"
-        )
+        localStorage.getItem("fields")
       ) || [],
 
     crops:
       JSON.parse(
-        localStorage.getItem(
-          "crops"
-        )
+        localStorage.getItem("crops")
+      ) || [],
+
+    livestock:
+      JSON.parse(
+        localStorage.getItem("livestock")
       ) || [],
 
     expenses:
       JSON.parse(
-        localStorage.getItem(
-          "expenses"
-        )
+        localStorage.getItem("expenses")
       ) || [],
 
     incomes:
       JSON.parse(
-        localStorage.getItem(
-          "incomes"
-        )
+        localStorage.getItem("incomes")
       ) || [],
 
     harvests:
       JSON.parse(
-        localStorage.getItem(
-          "harvests"
-        )
+        localStorage.getItem("harvests")
       ) || [],
 
     inventory:
       JSON.parse(
-        localStorage.getItem(
-          "inventory"
-        )
+        localStorage.getItem("inventory")
       ) || [],
 
     inventoryHistory:
@@ -63,126 +70,148 @@ export function getBackupData() {
         )
       ) || [],
 
-    profile:
+    diseaseHistory:
       JSON.parse(
         localStorage.getItem(
-          "profile"
+          "disease-history"
         )
+      ) || [],
+
+    marketReports:
+      JSON.parse(
+        localStorage.getItem(
+          "marketReports"
+        )
+      ) || [],
+
+    notifications:
+      JSON.parse(
+        localStorage.getItem(
+          "notifications"
+        )
+      ) || [],
+
+    weather:
+      JSON.parse(
+        localStorage.getItem(
+          "weather"
+        )
+      ) || {},
+
+    cropCalendar:
+      JSON.parse(
+        localStorage.getItem(
+          "cropCalendar"
+        )
+      ) || [],
+
+    profile:
+      JSON.parse(
+        localStorage.getItem("profile")
       ) || {},
 
     darkMode:
       JSON.parse(
-        localStorage.getItem(
-          "darkMode"
-        )
+        localStorage.getItem("darkMode")
       ) || false,
+
+    version: "2.4.0",
+
+    backupDate:
+      new Date().toISOString(),
   };
 }
 
 export function restoreBackupData(
   data
 ) {
-  if (data.farms) {
-    localStorage.setItem(
-      "farm-manager-pro-farms",
-      JSON.stringify(
-        data.farms
-      )
-    );
-  }
+  if (!data) return;
 
-  if (data.fields) {
-    localStorage.setItem(
-      "fields",
-      JSON.stringify(
-        data.fields
-      )
-    );
-  }
+  const save = (key, value) => {
+    if (value !== undefined) {
+      localStorage.setItem(
+        key,
+        JSON.stringify(value)
+      );
+    }
+  };
 
-  if (data.crops) {
-    localStorage.setItem(
-      "crops",
-      JSON.stringify(
-        data.crops
-      )
-    );
-  }
+  save(
+    "farm-manager-pro-farms",
+    data.farms
+  );
 
-  if (data.expenses) {
-    localStorage.setItem(
-      "expenses",
-      JSON.stringify(
-        data.expenses
-      )
-    );
-  }
+  save("fields", data.fields);
 
-  if (data.incomes) {
-    localStorage.setItem(
-      "incomes",
-      JSON.stringify(
-        data.incomes
-      )
-    );
-  }
+  save("crops", data.crops);
 
-  if (data.harvests) {
-    localStorage.setItem(
-      "harvests",
-      JSON.stringify(
-        data.harvests
-      )
-    );
-  }
+  save(
+    "livestock",
+    data.livestock
+  );
 
-  if (data.inventory) {
-    localStorage.setItem(
-      "inventory",
-      JSON.stringify(
-        data.inventory
-      )
-    );
-  }
+  save(
+    "expenses",
+    data.expenses
+  );
 
-  if (
+  save(
+    "incomes",
+    data.incomes
+  );
+
+  save(
+    "harvests",
+    data.harvests
+  );
+
+  save(
+    "inventory",
+    data.inventory
+  );
+
+  save(
+    "inventoryHistory",
     data.inventoryHistory
-  ) {
-    localStorage.setItem(
-      "inventoryHistory",
-      JSON.stringify(
-        data.inventoryHistory
-      )
-    );
-  }
+  );
 
-  if (data.activities) {
-    localStorage.setItem(
-      "activities",
-      JSON.stringify(
-        data.activities
-      )
-    );
-  }
+  save(
+    "activities",
+    data.activities
+  );
 
-  if (data.profile) {
-    localStorage.setItem(
-      "profile",
-      JSON.stringify(
-        data.profile
-      )
-    );
-  }
+  save(
+    "disease-history",
+    data.diseaseHistory
+  );
 
-  if (
-    data.darkMode !==
-    undefined
-  ) {
-    localStorage.setItem(
-      "darkMode",
-      JSON.stringify(
-        data.darkMode
-      )
-    );
-  }
+  save(
+    "marketReports",
+    data.marketReports
+  );
+
+  save(
+    "notifications",
+    data.notifications
+  );
+
+  save(
+    "weather",
+    data.weather
+  );
+
+  save(
+    "cropCalendar",
+    data.cropCalendar
+  );
+
+  save(
+    "profile",
+    data.profile
+  );
+
+  save(
+    "darkMode",
+    data.darkMode
+  );
 }

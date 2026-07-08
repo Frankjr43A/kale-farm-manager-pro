@@ -11,9 +11,15 @@ import Dashboard from "./pages/Dashboard";
 import Farms from "./pages/Farms";
 import Fields from "./pages/Fields";
 import Crops from "./pages/Crops";
+
 import Livestock from "./pages/Livestock";
 import LivestockReports from "./pages/LivestockReports";
 import Vaccinations from "./pages/Vaccinations";
+
+import PoultryExpert from "./pages/PoultryExpert";
+import TomatoExpert from "./pages/TomatoExpert";
+import KaleExpert from "./pages/KaleExpert";
+
 import DiseaseScanner from "./pages/DiseaseScanner";
 import DiseaseHistory from "./pages/DiseaseHistory";
 
@@ -26,17 +32,22 @@ import Finance from "./pages/Finance";
 import Income from "./pages/Income";
 import Harvests from "./pages/Harvests";
 import Activities from "./pages/Activities";
+
 import Weather from "./pages/Weather";
 import Analytics from "./pages/Analytics";
 import Reports from "./pages/Reports";
 import PdfReports from "./pages/PdfReports";
+
 import Inventory from "./pages/Inventory";
 import InventoryReport from "./pages/InventoryReport";
 import InventoryAnalytics from "./pages/InventoryAnalytics";
+
 import Backup from "./pages/BackupV2";
+
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
 import Theme from "./pages/Theme";
+
 import AIAssistant from "./pages/AIAssistant";
 import Notifications from "./pages/Notifications";
 import Menu from "./pages/Menu";
@@ -59,39 +70,35 @@ function App() {
           }
         />
 
-        <Route
-          path="dashboard"
-          element={<Dashboard />}
-        />
+        <Route path="dashboard" element={<Dashboard />} />
 
-        <Route
-          path="farms"
-          element={<Farms />}
-        />
+        <Route path="farms" element={<Farms />} />
+        <Route path="fields" element={<Fields />} />
+        <Route path="crops" element={<Crops />} />
 
-        <Route
-          path="fields"
-          element={<Fields />}
-        />
-
-        <Route
-          path="crops"
-          element={<Crops />}
-        />
-
-        <Route
-          path="livestock"
-          element={<Livestock />}
-        />
-
+        <Route path="livestock" element={<Livestock />} />
         <Route
           path="livestock-reports"
           element={<LivestockReports />}
         />
-
         <Route
           path="vaccinations"
           element={<Vaccinations />}
+        />
+
+        <Route
+          path="poultry-expert"
+          element={<PoultryExpert />}
+        />
+
+        <Route
+          path="tomato-expert"
+          element={<TomatoExpert />}
+        />
+
+        <Route
+          path="kale-expert"
+          element={<KaleExpert />}
         />
 
         <Route

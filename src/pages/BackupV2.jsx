@@ -23,6 +23,10 @@ import {
   deleteBackup,
 } from "../services/cloudBackupV2";
 
+import {
+  autoCloudSync,
+} from "../services/autoCloudSync";
+
 import useCloudBackups from "../hooks/useCloudBackups";
 
 import {
@@ -37,6 +41,9 @@ function BackupV2() {
   const [loading, setLoading] =
     useState(true);
 
+  const [syncing, setSyncing] =
+    useState(false);
+
   const {
     backups,
     loadingBackups,
@@ -48,15 +55,53 @@ function BackupV2() {
     const unsubscribe =
       onAuthStateChanged(
         auth,
-        (currentUser) => {
-          setUser(currentUser);
-          setLoading(false);
+        async (
+          currentUser
+        ) => {
+          setUser(
+            currentUser
+          );
+
+          setLoading(
+            false
+          );
+
+          if (
+            currentUser &&
+            navigator.onLine
+          ) {
+            await autoCloudSync(
+              currentUser
+            );
+          }
         }
       );
 
     return () =>
       unsubscribe();
   }, []);
+
+  useEffect(() => {
+    async function handleOnline() {
+      if (user) {
+        await autoCloudSync(
+          user
+        );
+      }
+    }
+
+    window.addEventListener(
+      "online",
+      handleOnline
+    );
+
+    return () => {
+      window.removeEventListener(
+        "online",
+        handleOnline
+      );
+    };
+  }, [user]);
 
   async function login() {
     try {
@@ -66,18 +111,75 @@ function BackupV2() {
           provider
         );
 
-      setUser(result.user);
+      setUser(
+        result.user
+      );
     } catch (error) {
-      alert(error.message);
+      alert(
+        error.message
+      );
     }
   }
 
   async function logout() {
     await signOut(auth);
+
     setUser(null);
   }
 
-  async function handleCreateBackup(
+  async function syncEntireFarm() {
+    if (!user) return;
+
+    setSyncing(true);
+
+    await autoCloudSync(
+      user
+    );
+
+    await refreshBackups();
+
+    setSyncing(false);
+
+    alert(
+      "Farm synchronized successfully."
+    );
+  }
+
+  async function restoreEntireFarm() {
+    if (
+      !user ||
+      backups.length === 0
+    ) {
+      alert(
+        "No backups available."
+      );
+      return;
+    }
+
+    const latest =
+      backups[0];
+
+    const result =
+      await loadBackup(
+        user.uid,
+        latest.id
+      );
+
+    if (
+      result.success
+    ) {
+      restoreBackupData(
+        result.data
+      );
+
+      alert(
+        "Latest backup restored."
+      );
+
+      window.location.reload();
+    }
+  }
+    async function handleCreateBackup(
     backupName
   ) {
     if (!user) {
@@ -108,9 +210,7 @@ function BackupV2() {
   async function handleRestoreBackup(
     backupId
   ) {
-    if (!user) {
-      return;
-    }
+    if (!user) return;
 
     const result =
       await loadBackup(
@@ -137,18 +237,14 @@ function BackupV2() {
   async function handleDeleteBackup(
     backupId
   ) {
-    if (!user) {
-      return;
-    }
+    if (!user) return;
 
     const confirmed =
       window.confirm(
         "Delete this backup?"
       );
 
-    if (!confirmed) {
-      return;
-    }
+    if (!confirmed) return;
 
     const result =
       await deleteBackup(
@@ -157,9 +253,7 @@ function BackupV2() {
       );
 
     if (result.success) {
-      alert(
-        "Backup deleted."
-      );
+      alert("Backup deleted.");
 
       refreshBackups();
     } else {
@@ -206,9 +300,7 @@ function BackupV2() {
     return (
       <main className="dashboard">
         <div className="farm-card">
-          <h2>
-            Loading...
-          </h2>
+          <h2>Loading...</h2>
         </div>
       </main>
     );
@@ -217,33 +309,63 @@ function BackupV2() {
   return (
     <main className="dashboard">
       <div className="farm-card">
+
         <h2>
-          ☁️ Backup V2
+          ☁️ Backup & Cloud Sync
         </h2>
 
         {!user ? (
           <button
             onClick={login}
           >
-            🔐 Sign in with
-            Google
+            🔐 Sign in with Google
           </button>
         ) : (
           <>
             <p>
-              Signed in as:
-              <br />
-              <strong>
-                {user.email}
-              </strong>
+              Signed in as
             </p>
+
+            <strong>
+              {user.email}
+            </strong>
+
+            <br />
+            <br />
+
+            <button
+              onClick={logout}
+            >
+              🚪 Sign Out
+            </button>
+
+            <hr
+              style={{
+                margin:
+                  "25px 0",
+              }}
+            />
 
             <button
               onClick={
-                logout
+                syncEntireFarm
+              }
+              disabled={
+                syncing
               }
             >
-              🚪 Sign Out
+              ☁️ Sync Entire Farm
+            </button>
+
+            <br />
+            <br />
+
+            <button
+              onClick={
+                restoreEntireFarm
+              }
+            >
+              ☁️ Restore Latest Backup
             </button>
 
             <br />
@@ -254,12 +376,15 @@ function BackupV2() {
                 exportData
               }
             >
-              ⬇️ Export Local
-              Backup
+              ⬇️ Export Local Backup
             </button>
 
-            <br />
-            <br />
+            <hr
+              style={{
+                margin:
+                  "25px 0",
+              }}
+            />
 
             <CreateBackupForm
               onCreateBackup={
@@ -267,10 +392,11 @@ function BackupV2() {
               }
             />
 
+            <br />
+
             {loadingBackups ? (
               <p>
-                Loading cloud
-                backups...
+                Loading cloud backups...
               </p>
             ) : (
               <BackupList
@@ -285,8 +411,10 @@ function BackupV2() {
                 }
               />
             )}
+
           </>
         )}
+
       </div>
     </main>
   );

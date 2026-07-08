@@ -1,62 +1,68 @@
+/*
+==========================================================
+
+Farm Manager Pro
+
+Create Backup Form
+
+Version : 2.4.0
+
+Developer : Francis Junior
+
+==========================================================
+*/
+
 import { useState } from "react";
 
 function CreateBackupForm({
   onCreateBackup,
 }) {
-  const [
-    backupName,
-    setBackupName,
-  ] = useState("");
+  const [backupName, setBackupName] =
+    useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    onCreateBackup(
-      backupName.trim()
-    );
+    const name =
+      backupName.trim() ||
+      `Backup ${new Date().toLocaleString()}`;
+
+    onCreateBackup(name);
 
     setBackupName("");
   }
 
   return (
     <div className="farm-card">
+
       <h3>
-        ☁️ Create Cloud
-        Backup
+        ☁️ Create Cloud Backup
       </h3>
 
-      <form
-        onSubmit={
-          handleSubmit
-        }
-      >
+      <p>
+        Save the current state of your farm
+        to Firebase.
+      </p>
+
+      <form onSubmit={handleSubmit}>
+
         <input
           type="text"
-          placeholder="Backup name (optional)"
-          value={
-            backupName
-          }
+          placeholder="Example: Before Harvest"
+          value={backupName}
           onChange={(e) =>
             setBackupName(
               e.target.value
             )
           }
-          style={{
-            width: "100%",
-            padding: "12px",
-            marginBottom:
-              "12px",
-            borderRadius:
-              "10px",
-          }}
         />
 
-        <button
-          type="submit"
-        >
+        <button type="submit">
           ☁️ Create Backup
         </button>
+
       </form>
+
     </div>
   );
 }

@@ -1,3 +1,17 @@
+/*
+==========================================================
+
+Farm Manager Pro
+
+Theme Settings
+
+Version : 2.4.0
+
+Developer : Francis Junior
+
+==========================================================
+*/
+
 import { useEffect, useState } from "react";
 
 function Theme() {
@@ -5,50 +19,54 @@ function Theme() {
     useState(false);
 
   useEffect(() => {
-    const savedTheme =
+    const saved =
       localStorage.getItem(
         "darkMode"
       );
 
-    if (savedTheme === "true") {
-      setDarkMode(true);
-      document.body.classList.add(
-        "dark-mode"
-      );
-    }
+    const enabled =
+      saved === "true";
+
+    setDarkMode(enabled);
+
+    document.body.classList.toggle(
+      "dark-mode",
+      enabled
+    );
   }, []);
 
   function toggleTheme() {
-    const newMode =
+    const enabled =
       !darkMode;
 
-    setDarkMode(newMode);
+    setDarkMode(enabled);
 
-    if (newMode) {
-      document.body.classList.add(
-        "dark-mode"
-      );
+    document.body.classList.toggle(
+      "dark-mode",
+      enabled
+    );
 
-      localStorage.setItem(
-        "darkMode",
-        "true"
-      );
-    } else {
-      document.body.classList.remove(
-        "dark-mode"
-      );
-
-      localStorage.setItem(
-        "darkMode",
-        "false"
-      );
-    }
+    localStorage.setItem(
+      "darkMode",
+      enabled
+    );
   }
 
   return (
     <main className="dashboard">
+
       <div className="farm-card">
-        <h2>🌙 Theme</h2>
+
+        <h2>
+          🎨 Theme Settings
+        </h2>
+
+        <p>
+          Customize the appearance of
+          Farm Manager Pro.
+        </p>
+
+        <br />
 
         <button
           onClick={
@@ -56,10 +74,25 @@ function Theme() {
           }
         >
           {darkMode
-            ? "☀️ Light Mode"
-            : "🌙 Dark Mode"}
+            ? "☀️ Switch to Light Mode"
+            : "🌙 Switch to Dark Mode"}
         </button>
+
+        <br />
+        <br />
+
+        <p>
+          Current Theme:
+          <strong>
+            {" "}
+            {darkMode
+              ? "Dark"
+              : "Light"}
+          </strong>
+        </p>
+
       </div>
+
     </main>
   );
 }

@@ -1,21 +1,49 @@
+/*
+==========================================================
+
+Farm Manager Pro
+
+PDF Service
+
+Version : 2.4.0
+
+Developer : Francis Junior
+
+==========================================================
+*/
+
 import jsPDF from "jspdf";
 
-export function exportTextPdf(
-  title,
-  lines,
-  fileName
-) {
+function createPdf(title) {
   const doc = new jsPDF();
 
-  doc.setFontSize(18);
-  doc.text(title, 20, 20);
+  doc.setFontSize(20);
+  doc.text("Farm Manager Pro", 20, 20);
 
-  doc.setFontSize(12);
+  doc.setFontSize(16);
+  doc.text(title, 20, 32);
 
-  let y = 35;
+  doc.setFontSize(10);
+  doc.text(
+    `Generated: ${new Date().toLocaleString()}`,
+    20,
+    42
+  );
+
+  return doc;
+}
+
+function saveLines(
+  doc,
+  lines,
+  filename
+) {
+  let y = 55;
+
+  doc.setFontSize(11);
 
   lines.forEach((line) => {
-    if (y > 270) {
+    if (y > 280) {
       doc.addPage();
       y = 20;
     }
@@ -26,142 +54,10 @@ export function exportTextPdf(
       y
     );
 
-    y += 10;
+    y += 8;
   });
 
-  doc.save(
-    `${fileName}.pdf`
-  );
-}
-
-export function exportLivestockReport() {
-  const records =
-    JSON.parse(
-      localStorage.getItem(
-        "livestock"
-      )
-    ) || [];
-
-  const lines = [];
-
-  records.forEach(
-    (record) => {
-      lines.push(
-        `Date: ${record.date}`
-      );
-      lines.push(
-        `Birds: ${record.birds}`
-      );
-      lines.push(
-        `Eggs: ${record.eggs}`
-      );
-      lines.push(
-        `Feed: ${record.feed} Kg`
-      );
-      lines.push(
-        `Deaths: ${record.deaths}`
-      );
-      lines.push(
-        `Notes: ${record.notes}`
-      );
-      lines.push(
-        "------------------------"
-      );
-    }
-  );
-
-  exportTextPdf(
-    "Livestock Report",
-    lines,
-    "livestock-report"
-  );
-}
-
-export function exportDiseaseReport() {
-  const records =
-    JSON.parse(
-      localStorage.getItem(
-        "disease-history"
-      )
-    ) || [];
-
-  const lines = [];
-
-  records.forEach(
-    (record) => {
-      lines.push(
-        `Date: ${record.date}`
-      );
-      lines.push(
-        `Crop: ${record.crop}`
-      );
-      lines.push(
-        `Disease: ${record.disease}`
-      );
-      lines.push(
-        `Symptoms: ${record.symptoms}`
-      );
-      lines.push(
-        `Recommendation: ${record.recommendation}`
-      );
-      lines.push(
-        "------------------------"
-      );
-    }
-  );
-
-  exportTextPdf(
-    "Disease Report",
-    lines,
-    "disease-report"
-  );
-}
-
-export function exportFinanceReport() {
-  const expenses =
-    JSON.parse(
-      localStorage.getItem(
-        "expenses"
-      )
-    ) || [];
-
-  const income =
-    JSON.parse(
-      localStorage.getItem(
-        "incomes"
-      )
-    ) || [];
-
-  const lines = [];
-
-  lines.push(
-    "INCOME"
-  );
-
-  income.forEach((item) => {
-    lines.push(
-      `${item.description || "Income"} - KES ${item.amount}`
-    );
-  });
-
-  lines.push("");
-  lines.push(
-    "EXPENSES"
-  );
-
-  expenses.forEach(
-    (item) => {
-      lines.push(
-        `${item.description || "Expense"} - KES ${item.amount}`
-      );
-    }
-  );
-
-  exportTextPdf(
-    "Finance Report",
-    lines,
-    "finance-report"
-  );
+  doc.save(`${filename}.pdf`);
 }
 
 export function exportFarmSummary() {
@@ -179,31 +75,171 @@ export function exportFarmSummary() {
       )
     ) || [];
 
+  const livestock =
+    JSON.parse(
+      localStorage.getItem(
+        "livestock"
+      )
+    ) || [];
+
+  const inventory =
+    JSON.parse(
+      localStorage.getItem(
+        "inventory"
+      )
+    ) || [];
+
   const lines = [
-    `Farmer: ${
-      profile.fullName ||
-      "Farmer"
-    }`,
-    `Farm Name: ${
-      profile.farmName ||
-      "Not Set"
-    }`,
-    `County: ${
-      profile.county ||
-      ""
-    }`,
-    `Country: ${
-      profile.country ||
-      ""
-    }`,
-    `Number of Farms: ${
-      farms.length
-    }`,
+    `Farmer: ${profile.fullName || ""}`,
+    `Farm: ${profile.farmName || ""}`,
+    `County: ${profile.county || ""}`,
+    `Country: ${profile.country || ""}`,
+    "",
+    `Farms: ${farms.length}`,
+    `Livestock Records: ${livestock.length}`,
+    `Inventory Items: ${inventory.length}`,
   ];
 
-  exportTextPdf(
-    "Farm Summary",
+  const doc =
+    createPdf("Farm Summary");
+
+  saveLines(
+    doc,
     lines,
     "farm-summary"
+  );
+}
+
+export function exportFinanceReport() {
+  const expenses =
+    JSON.parse(
+      localStorage.getItem(
+        "expenses"
+      )
+    ) || [];
+
+  const incomes =
+    JSON.parse(
+      localStorage.getItem(
+        "incomes"
+      )
+    ) || [];
+
+  const lines = [];
+
+  lines.push("INCOME");
+  lines.push("");
+
+  incomes.forEach((item) => {
+    lines.push(
+      `${item.description || "Income"} : KES ${item.amount}`
+    );
+  });
+
+  lines.push("");
+  lines.push("EXPENSES");
+  lines.push("");
+
+  expenses.forEach((item) => {
+    lines.push(
+      `${item.description || "Expense"} : KES ${item.amount}`
+    );
+  });
+
+  const doc =
+    createPdf("Finance Report");
+
+  saveLines(
+    doc,
+    lines,
+    "finance-report"
+  );
+}
+
+export function exportLivestockReport() {
+  const records =
+    JSON.parse(
+      localStorage.getItem(
+        "livestock"
+      )
+    ) || [];
+
+  const lines = [];
+
+  records.forEach((item) => {
+    lines.push(
+      `Date: ${item.date || ""}`
+    );
+
+    lines.push(
+      `Birds: ${item.birds || ""}`
+    );
+
+    lines.push(
+      `Eggs: ${item.eggs || ""}`
+    );
+
+    lines.push(
+      `Feed: ${item.feed || ""}`
+    );
+
+    lines.push(
+      `Deaths: ${item.deaths || ""}`
+    );
+
+    lines.push(
+      "--------------------------------"
+    );
+  });
+
+  const doc =
+    createPdf("Livestock Report");
+
+  saveLines(
+    doc,
+    lines,
+    "livestock-report"
+  );
+}
+
+export function exportDiseaseReport() {
+  const history =
+    JSON.parse(
+      localStorage.getItem(
+        "disease-history"
+      )
+    ) || [];
+
+  const lines = [];
+
+  history.forEach((item) => {
+    lines.push(
+      `Crop: ${item.crop}`
+    );
+
+    lines.push(
+      `Disease: ${item.disease}`
+    );
+
+    lines.push(
+      `Symptoms: ${item.symptoms}`
+    );
+
+    lines.push(
+      `Recommendation: ${item.recommendation}`
+    );
+
+    lines.push(
+      "--------------------------------"
+    );
+  });
+
+  const doc =
+    createPdf("Disease Report");
+
+  saveLines(
+    doc,
+    lines,
+    "disease-report"
   );
 }

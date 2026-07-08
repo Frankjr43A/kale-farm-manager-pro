@@ -1,141 +1,78 @@
 import { useState } from "react";
-
-import {
-  startListening,
-  stopListening,
-  speak,
-} from "../services/voiceAssistant";
+import { stopSpeaking } from "../services/voiceAssistant";
 
 function VoiceControls({
   onTranscript,
-  answer,
 }) {
-  const [recognition,
-    setRecognition] =
-    useState(null);
-
-  const [listening,
-    setListening] =
+  const [listening, setListening] =
     useState(false);
 
-  function handleStart() {
-    if (listening) return;
+  function startListening() {
+    const SpeechRecognition =
+      window.SpeechRecognition ||
+      window.webkitSpeechRecognition;
 
-    const instance =
-      startListening(
-        (text) => {
-          onTranscript(text);
-          setListening(
-            false
-          );
-        },
-        (error) => {
-          console.log(
-            error
-          );
-
-          setListening(
-            false
-          );
-        }
+    if (!SpeechRecognition) {
+      alert(
+        "Speech recognition is not supported on this device."
       );
-
-    if (instance) {
-      setRecognition(
-        instance
-      );
-      setListening(
-        true
-      );
+      return;
     }
-  }
 
-  function handleStop() {
-    stopListening(
-      recognition
-    );
+    const recognition =
+      new SpeechRecognition();
 
-    setListening(
-      false
-    );
-  }
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
 
-  function handleRepeat() {
-    if (answer) {
-      speak(answer);
-    }
+    setListening(true);
+
+    recognition.start();
+
+    recognition.onresult = (
+      event
+    ) => {
+      const text =
+        event.results[0][0]
+          .transcript;
+
+      onTranscript(text);
+    };
+
+    recognition.onend = () => {
+      setListening(false);
+    };
+
+    recognition.onerror = () => {
+      setListening(false);
+    };
   }
 
   return (
     <div
       style={{
         marginTop: "20px",
+        display: "flex",
+        gap: "10px",
+        flexWrap: "wrap",
       }}
     >
-      <h3>
-        🎤 Voice Assistant
-      </h3>
-
-      <div
-        style={{
-          display: "flex",
-          gap: "10px",
-          flexWrap: "wrap",
-          marginTop: "15px",
-        }}
+      <button
+        type="button"
+        onClick={startListening}
       >
-        <button
-          type="button"
-          onClick={
-            handleStart
-          }
-          disabled={
-            listening
-          }
-        >
-          {listening
-            ? "🎤 Listening..."
-            : "🎤 Start Listening"}
-        </button>
+        {listening
+          ? "🎤 Listening..."
+          : "🎤 Voice Input"}
+      </button>
 
-        <button
-          type="button"
-          onClick={
-            handleStop
-          }
-          disabled={
-            !listening
-          }
-        >
-          ⏹ Stop
-        </button>
-
-        <button
-          type="button"
-          onClick={
-            handleRepeat
-          }
-          disabled={
-            !answer
-          }
-        >
-          🔊 Repeat Answer
-        </button>
-      </div>
-
-      {listening && (
-        <p
-          style={{
-            marginTop:
-              "10px",
-            fontWeight:
-              "bold",
-          }}
-        >
-          🎤 Listening...
-          Please speak now.
-        </p>
-      )}
+      <button
+        type="button"
+        onClick={stopSpeaking}
+      >
+        🔇 Stop Voice
+      </button>
     </div>
   );
 }

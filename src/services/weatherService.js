@@ -1,11 +1,14 @@
-export async function getWeather(
+const API_KEY =
+  "e176a0db1c202f75a54b645a4ba99780";
+
+export async function getCurrentWeather(
   latitude,
   longitude
 ) {
   try {
     const response =
       await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
       );
 
     const data =
@@ -13,15 +16,22 @@ export async function getWeather(
 
     return {
       success: true,
-      data,
+      city: data.name,
+      country: data.sys.country,
+      temperature: data.main.temp,
+      feelsLike: data.main.feels_like,
+      humidity: data.main.humidity,
+      pressure: data.main.pressure,
+      windSpeed: data.wind.speed,
+      description:
+        data.weather[0].description,
+      icon:
+        `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
     };
   } catch (error) {
-    console.error(error);
-
     return {
       success: false,
-      message:
-        error.message,
+      message: error.message,
     };
   }
 }
@@ -40,10 +50,7 @@ export async function geocodeLocation(
     const data =
       await response.json();
 
-    if (
-      !data ||
-      data.length === 0
-    ) {
+    if (!data.length) {
       return {
         success: false,
       };
@@ -56,9 +63,7 @@ export async function geocodeLocation(
       longitude:
         Number(data[0].lon),
     };
-  } catch (error) {
-    console.error(error);
-
+  } catch {
     return {
       success: false,
     };
@@ -68,25 +73,38 @@ export async function geocodeLocation(
 export function getWeatherText(
   code
 ) {
-  const weatherCodes = {
-    0: "Clear Sky",
-    1: "Mainly Clear",
-    2: "Partly Cloudy",
-    3: "Overcast",
-    45: "Fog",
-    48: "Fog",
-    51: "Light Drizzle",
-    53: "Drizzle",
-    55: "Heavy Drizzle",
-    61: "Light Rain",
-    63: "Rain",
-    65: "Heavy Rain",
-    80: "Rain Showers",
-    95: "Thunderstorm",
-  };
+  if (code === 0)
+    return "Clear Sky";
 
-  return (
-    weatherCodes[code] ||
-    "Unknown"
-  );
+  if (
+    [1, 2, 3].includes(code)
+  )
+    return "Partly Cloudy";
+
+  if (
+    [45, 48].includes(code)
+  )
+    return "Fog";
+
+  if (
+    [51, 53, 55].includes(code)
+  )
+    return "Drizzle";
+
+  if (
+    [61, 63, 65].includes(code)
+  )
+    return "Rain";
+
+  if (
+    [71, 73, 75].includes(code)
+  )
+    return "Snow";
+
+  if (
+    [95, 96, 99].includes(code)
+  )
+    return "Thunderstorm";
+
+  return "Unknown";
 }

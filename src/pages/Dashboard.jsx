@@ -1,3 +1,17 @@
+/*
+==========================================================
+
+Farm Manager Pro
+
+Page : Dashboard
+
+Version : 2.2.0
+
+Developer : Francis Junior
+
+==========================================================
+*/
+
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -15,50 +29,30 @@ import {
 } from "../services/copilotNarration";
 
 function Dashboard() {
-  const navigate =
-    useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const enabled =
-      localStorage.getItem(
-        "copilotNarration"
-      );
+    const enabled = localStorage.getItem(
+      "copilotNarration"
+    );
 
-    if (
-      enabled !== "false"
-    ) {
-      const timer =
-        setTimeout(() => {
-          playCopilotNarration();
-        }, 1500);
+    if (enabled !== "false") {
+      const timer = setTimeout(() => {
+        playCopilotNarration();
+      }, 1500);
 
-      return () =>
-        clearTimeout(
-          timer
-        );
+      return () => clearTimeout(timer);
     }
   }, []);
 
   const expenses =
-    JSON.parse(
-      localStorage.getItem(
-        "expenses"
-      )
-    ) || [];
+    JSON.parse(localStorage.getItem("expenses")) || [];
 
   const incomes =
-    JSON.parse(
-      localStorage.getItem(
-        "incomes"
-      )
-    ) || [];
+    JSON.parse(localStorage.getItem("incomes")) || [];
 
   const harvests =
-    JSON.parse(
-      localStorage.getItem(
-        "harvests"
-      )
-    ) || [];
+    JSON.parse(localStorage.getItem("harvests")) || [];
 
   const farms =
     JSON.parse(
@@ -69,102 +63,132 @@ function Dashboard() {
 
   const inventory =
     JSON.parse(
-      localStorage.getItem(
-        "inventory"
-      )
+      localStorage.getItem("inventory")
     ) || [];
 
-  const totalExpenses =
-    expenses.reduce(
-      (total, expense) =>
-        total +
-        Number(
-          expense.amount ||
-            0
-        ),
-      0
-    );
+  const totalExpenses = expenses.reduce(
+    (t, e) => t + Number(e.amount || 0),
+    0
+  );
 
-  const totalIncome =
-    incomes.reduce(
-      (total, income) =>
-        total +
-        Number(
-          income.amount ||
-            0
-        ),
-      0
-    );
+  const totalIncome = incomes.reduce(
+    (t, i) => t + Number(i.amount || 0),
+    0
+  );
 
   const totalHarvestIncome =
     harvests.reduce(
-      (total, harvest) =>
-        total +
-        Number(
-          harvest.income ||
-            0
-        ),
+      (t, h) => t + Number(h.income || 0),
       0
     );
 
   const profit =
-    totalIncome -
-    totalExpenses;
+    totalIncome - totalExpenses;
 
   const lowStockItems =
     inventory.filter(
       (item) =>
-        Number(
-          item.quantity
-        ) <= 2
+        Number(item.quantity) <= 2
     );
 
   const profile =
     JSON.parse(
-      localStorage.getItem(
-        "profile"
-      )
+      localStorage.getItem("profile")
     ) || {};
 
   const farmerName =
-    profile.fullName ||
-    "Farmer";
+    profile.fullName || "Farmer";
 
-  const hour =
-    new Date().getHours();
+  const hour = new Date().getHours();
 
-  let greeting =
-    "Good Evening";
+  let greeting = "Good Evening";
 
-  if (hour < 12) {
-    greeting =
-      "Good Morning";
-  } else if (
-    hour < 18
-  ) {
-    greeting =
-      "Good Afternoon";
-  }
+  if (hour < 12) greeting = "Good Morning";
+  else if (hour < 18)
+    greeting = "Good Afternoon";
 
   return (
     <main className="dashboard">
+
       <section className="welcome-card">
         <h2>
-          👋 {greeting},{" "}
+          🌿 {greeting},{" "}
           {farmerName}
         </h2>
 
         <p>
           Welcome back to
-          Farm Manager Pro.
+          <strong>
+            {" "}
+            Farm Manager Pro
+          </strong>
         </p>
       </section>
 
       <FarmCopilot />
 
-      <FarmNotifications />
+      <section
+        className="dashboard-grid"
+        style={{
+          marginTop: "20px",
+        }}
+      >
+        <DashboardCard
+          icon="💰"
+          title="Income"
+          value={`KES ${totalIncome.toLocaleString()}`}
+          subtitle="Total"
+          color="#2e7d32"
+        />
 
-      <VaccinationReminders />
+        <DashboardCard
+          icon="💸"
+          title="Expenses"
+          value={`KES ${totalExpenses.toLocaleString()}`}
+          subtitle="Total"
+          color="#d32f2f"
+        />
+
+        <DashboardCard
+          icon="📈"
+          title="Profit"
+          value={`KES ${profit.toLocaleString()}`}
+          subtitle="Net"
+          color="#1565c0"
+        />
+
+        <DashboardCard
+          icon="🥬"
+          title="Harvest"
+          value={`KES ${totalHarvestIncome.toLocaleString()}`}
+          subtitle="Income"
+          color="#43a047"
+        />
+
+        <DashboardCard
+          icon="🚜"
+          title="Farms"
+          value={farms.length}
+          subtitle="Registered"
+          color="#6d4c41"
+        />
+
+        <DashboardCard
+          icon="📦"
+          title="Inventory"
+          value={inventory.length}
+          subtitle="Items"
+          color="#fb8c00"
+        />
+
+        <DashboardCard
+          icon="⚠️"
+          title="Low Stock"
+          value={lowStockItems.length}
+          subtitle="Alerts"
+          color="#e53935"
+        />
+      </section>
 
       <WeatherCard />
 
@@ -172,74 +196,24 @@ function Dashboard() {
 
       <WeatherAlerts />
 
+      <FarmNotifications />
+
+      <VaccinationReminders />
+
       <UpcomingActivities />
 
-      <section className="dashboard-grid">
-        <DashboardCard
-          icon="💰"
-          title="Income"
-          value={`KES ${totalIncome.toLocaleString()}`}
-        />
-
-        <DashboardCard
-          icon="💸"
-          title="Expenses"
-          value={`KES ${totalExpenses.toLocaleString()}`}
-        />
-
-        <DashboardCard
-          icon="📈"
-          title="Profit"
-          value={`KES ${profit.toLocaleString()}`}
-        />
-
-        <DashboardCard
-          icon="🥬"
-          title="Harvest"
-          value={`KES ${totalHarvestIncome.toLocaleString()}`}
-        />
-
-        <DashboardCard
-          icon="🚜"
-          title="Farms"
-          value={farms.length}
-        />
-
-        <DashboardCard
-          icon="📦"
-          title="Inventory"
-          value={inventory.length}
-        />
-
-        <DashboardCard
-          icon="⚠️"
-          title="Low Stock"
-          value={
-            lowStockItems.length
-          }
-        />
-      </section>
-
-      {lowStockItems.length >
-        0 && (
+      {lowStockItems.length > 0 && (
         <section className="tasks-card">
           <h3>
-            ⚠️ Low Stock
-            Alerts
+            ⚠️ Low Stock Alerts
           </h3>
 
           <ul>
             {lowStockItems.map(
               (item) => (
-                <li
-                  key={item.id}
-                >
-                  📦 {item.name}
-                  {" ("}
-                  {
-                    item.quantity
-                  }
-                  {")"}
+                <li key={item.id}>
+                  📦 {item.name} (
+                  {item.quantity})
                 </li>
               )
             )}
@@ -249,112 +223,74 @@ function Dashboard() {
 
       <section className="tasks-card">
         <h3>
-          📅 Today's Tasks
-        </h3>
-
-        <ul>
-          <li>
-            🥬 Inspect Kale
-            Field
-          </li>
-
-          <li>
-            💧 Irrigation
-          </li>
-
-          <li>
-            🧪 Apply
-            Fertilizer
-          </li>
-        </ul>
-      </section>
-
-      <button
-        className="fab"
-        popoverTarget="quick-actions"
-      >
-        ＋
-      </button>
-
-      <div
-        id="quick-actions"
-        popover="auto"
-        className="quick-actions"
-      >
-        <h3>
           ⚡ Quick Actions
         </h3>
 
-        <button
-          onClick={() =>
-            navigate(
-              "/farms"
-            )
-          }
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fit,minmax(180px,1fr))",
+            gap: "12px",
+          }}
         >
-          🚜 Add Farm
-        </button>
+          <button
+            onClick={() =>
+              navigate("/farms")
+            }
+          >
+            🚜 Farms
+          </button>
 
-        <button
-          onClick={() =>
-            navigate(
-              "/finance"
-            )
-          }
-        >
-          💸 Add Expense
-        </button>
+          <button
+            onClick={() =>
+              navigate("/market-dashboard")
+            }
+          >
+            📈 Market
+          </button>
 
-        <button
-          onClick={() =>
-            navigate(
-              "/harvests"
-            )
-          }
-        >
-          🥬 Add Harvest
-        </button>
+          <button
+            onClick={() =>
+              navigate("/finance")
+            }
+          >
+            💸 Finance
+          </button>
 
-        <button
-          onClick={() =>
-            navigate(
-              "/crop-calendar"
-            )
-          }
-        >
-          📅 Crop Calendar
-        </button>
+          <button
+            onClick={() =>
+              navigate("/inventory")
+            }
+          >
+            📦 Inventory
+          </button>
 
-        <button
-          onClick={() =>
-            navigate(
-              "/vaccinations"
-            )
-          }
-        >
-          💉 Vaccinations
-        </button>
+          <button
+            onClick={() =>
+              navigate("/crop-calendar")
+            }
+          >
+            📅 Calendar
+          </button>
 
-        <button
-          onClick={() =>
-            navigate(
-              "/ai-assistant"
-            )
-          }
-        >
-          🤖 AI Assistant
-        </button>
+          <button
+            onClick={() =>
+              navigate("/disease-scanner")
+            }
+          >
+            📷 Disease Scanner
+          </button>
 
-        <button
-          onClick={() =>
-            navigate(
-              "/disease-scanner"
-            )
-          }
-        >
-          📷 Scan Disease
-        </button>
-      </div>
+          <button
+            onClick={() =>
+              navigate("/ai-assistant")
+            }
+          >
+            🤖 AI Assistant
+          </button>
+        </div>
+      </section>
     </main>
   );
 }
