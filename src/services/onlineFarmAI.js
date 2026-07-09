@@ -8,7 +8,8 @@ Developer: Francis Junior
 ==========================================================
 */
 
-const API_URL = "http://localhost:5000/api/ai";
+const API_URL =
+  "https://farm-manager-pro-api.onrender.com/api/ai";
 
 let conversation = [];
 
@@ -16,7 +17,8 @@ export async function askOnlineFarmAI(question) {
   if (!navigator.onLine) {
     return {
       success: false,
-      answer: "Offline mode."
+      answer:
+        "You are currently offline."
     };
   }
 
@@ -24,12 +26,12 @@ export async function askOnlineFarmAI(question) {
     const response = await fetch(API_URL, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         prompt: question,
-        history: conversation
-      })
+        history: conversation,
+      }),
     });
 
     const data = await response.json();
@@ -37,33 +39,38 @@ export async function askOnlineFarmAI(question) {
     if (!response.ok || !data.success) {
       return {
         success: false,
-        answer: data.message || "AI Server Error"
+        answer:
+          data.message ||
+          "Unable to contact AI server.",
       };
     }
 
     conversation.push({
       role: "user",
-      content: question
+      content: question,
     });
 
     conversation.push({
       role: "assistant",
-      content: data.answer
+      content: data.answer,
     });
 
     if (conversation.length > 20) {
-      conversation = conversation.slice(-20);
+      conversation =
+        conversation.slice(-20);
     }
 
     return {
       success: true,
-      answer: data.answer
+      answer: data.answer,
     };
-
   } catch (error) {
+    console.error("AI Error:", error);
+
     return {
       success: false,
-      answer: error.message
+      answer:
+        "Unable to connect to the AI server. Please check your internet connection and try again.",
     };
   }
 }

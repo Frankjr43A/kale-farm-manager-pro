@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "371551869553",
+    "project_id": "farm-manager-pro-b3b17",
+    "storage_bucket": "farm-manager-pro-b3b17.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:371551869553:android:b0aed7b2a68254ccdc59d0",
+        "android_client_info": {
+          "package_name": "com.frankjr43.farmmanagerpro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "371551869553-2621rvir60pfdg7rqkjolr9r4htb62r1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKJRCLZZ9AJb-2qj61haNRf9xGTDh4D6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "371551869553-2621rvir60pfdg7rqkjolr9r4htb62r1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
