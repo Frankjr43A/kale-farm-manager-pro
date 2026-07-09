@@ -2,8 +2,9 @@
 ==========================================================
 
 Farm Manager Pro
-Production Online AI Service
-Developer: Francis Junior
+Production Online AI Service (Debug)
+
+Developer : Francis Junior
 
 ==========================================================
 */
@@ -17,42 +18,61 @@ export async function askOnlineFarmAI(question) {
   if (!navigator.onLine) {
     return {
       success: false,
-      answer:
-        "You are currently offline."
+      answer: "❌ Device is offline."
     };
   }
 
   try {
+
     const response = await fetch(API_URL, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         prompt: question,
-        history: conversation,
-      }),
+        history: conversation
+      })
     });
 
-    const data = await response.json();
+    const text = await response.text();
 
-    if (!response.ok || !data.success) {
+    let data = {};
+
+    try {
+      data = JSON.parse(text);
+    } catch {
       return {
         success: false,
         answer:
-          data.message ||
-          "Unable to contact AI server.",
+          "❌ Server returned invalid JSON:\n\n" + text
+      };
+    }
+
+    if (!response.ok) {
+      return {
+        success: false,
+        answer:
+          `❌ HTTP ${response.status}\n\n${data.message}`
+      };
+    }
+
+    if (!data.success) {
+      return {
+        success: false,
+        answer:
+          "❌ " + data.message
       };
     }
 
     conversation.push({
       role: "user",
-      content: question,
+      content: question
     });
 
     conversation.push({
       role: "assistant",
-      content: data.answer,
+      content: data.answer
     });
 
     if (conversation.length > 20) {
@@ -62,16 +82,18 @@ export async function askOnlineFarmAI(question) {
 
     return {
       success: true,
-      answer: data.answer,
+      answer: data.answer
     };
+
   } catch (error) {
-    console.error("AI Error:", error);
 
     return {
       success: false,
       answer:
-        "Unable to connect to the AI server. Please check your internet connection and try again.",
+        "❌ NETWORK ERROR\n\n" +
+        error.message
     };
+
   }
 }
 
