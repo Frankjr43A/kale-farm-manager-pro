@@ -114,7 +114,6 @@ ${result.prevention}`
       <div className="farm-card">
 
         <h2>🤖 Farm Manager Pro AI</h2>
-
         <p>
           Online Gemini AI with offline farming knowledge.
         </p>
